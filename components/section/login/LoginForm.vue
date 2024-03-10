@@ -1,0 +1,89 @@
+<script lang="ts" setup>
+  import InputVariant from "~/components/ui/InputVariant.vue";
+  
+  const identifier = ref('testing9')
+  const password = ref('12312')
+
+  const isLoading = ref(false)
+  
+  const { $bToast } = useNuxtApp()
+  const toasts: Ref<Object[]> = ref([]);
+
+  const handleLogin = async () => {
+    isLoading.value = true
+
+    const { $api } = useNuxtApp()
+    const { user, setUser } = useMyUserStore()
+
+    const { data, error } = await $api.auth.login({
+      identifier: identifier.value,
+      password: password.value,
+    })
+
+    if(error.value){
+      const { error: {message} }: any = error.value.data
+
+      toasts.value.push({
+        variant: 'danger',
+        title: 'Failed',
+        body: message
+      })
+    } else {
+      const token = useCookie('token')
+      token.value = data.value?.data.jwt
+
+      const { data: userProfile, error } = await $api.user.getProfile()
+    
+      await setUser(!error.value ? userProfile.value?.data : null)
+      
+      document.location = '/'
+    }
+    
+    isLoading.value = false
+  }
+</script>
+<template lang="">
+  <div class="shadow-sm mx-auto col-12 col-lg-5">
+    <Form class="login-form" @submit="handleLogin">
+      <h3>Login</h3>
+      <InputVariant
+        v-model="identifier"
+        name="identifier"
+        placeholder="Enter username or email" 
+        label="Username or Email" 
+        :rules="{required: true}" />
+      <InputVariant
+        v-model="password"
+        name="password"
+        inputType="password"
+        placeholder="Enter password" 
+        label="Password" 
+        :rules="{required: true}" />
+      <UiButtonVariant buttonType="submit" classes="col-12" content="Login" variant="black" :isLoading="isLoading"/>
+      <p>Don't have an account yet ? <nuxt-link to="/register">Register</nuxt-link></p>
+    </Form>
+  </div>
+  <div class="toast-container position-fixed top-0 end-0">
+    <UiToast 
+      v-for="(toast, i) in toasts" 
+      :id="`toast${i}`" 
+      :title="toast.title" 
+      :body="toast.body" 
+      :variant="toast.variant"  
+      :key="i" />
+  </div>
+</template>
+<style lang="scss" scoped>
+  .login-form{
+    padding: 2rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  a{
+    font-weight: 600;
+    color: #000000;
+  }
+</style>

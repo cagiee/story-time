@@ -1,23 +1,12 @@
 <script lang="ts" setup>
-  import Navbar from '~/components/layouts/default/Navbar.vue'
-  import Footer from '~/components/layouts/default/Footer.vue'
-  import RegisterForm from '~/components/section/register/RegisterForm.vue'
+  definePageMeta({
+    middleware: 'guest-only'
+  })
+  const registerSuccess = ref(false)
 </script>
 <template>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <div class="container">
-      <RegisterForm />
-    </div>
-  </main>
-  <Footer />
-
+  <SectionRegisterForm v-if="!registerSuccess" v-model="registerSuccess"/>
+  <SectionRegisterSuccess v-else/>
 </template>
 <style lang="scss" scoped>
-  .container{
-    margin-top: 7.5rem;
-    min-height: 100vh;
-  }
 </style>
