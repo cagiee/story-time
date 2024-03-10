@@ -18,13 +18,15 @@
     }
   })
 
+  // # Value setting for emit to parent element
   const emit = defineEmits(['update:modelValue']);
   const value = ref(props.modelValue)
-
   const updateValue = (event: any) => {
     value.value = event.target.value;
     emit('update:modelValue', value.value);
   }
+  // # End setting for emit to parent element
+
 </script>
 <template lang="">
   <select class="form-select" @change="updateValue">
@@ -33,7 +35,6 @@
   </select>
 </template>
 <style lang="scss" scoped>
-  
   .form-select{
     height: 42px;
     border-radius: 0;

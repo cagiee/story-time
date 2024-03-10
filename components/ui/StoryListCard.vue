@@ -1,10 +1,15 @@
 <script lang="ts" setup>
   import { getImageUrl } from '~/utils/getImageUrl';
-  import ButtonVariant from "~/components/ui/ButtonVariant.vue";
+  
   defineProps({
     story: Object
   })
 
+  /**
+   * Return date from any format to DD-mm-YY
+   * @param {string} dateString the type string date that want to change to spesific format
+   * @returns {string} result of formatted date
+   */
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString('en-GB', { 
@@ -20,7 +25,7 @@
 <template lang="">
   <div class="col-6 col-lg-4 col-xl-3">
     <div class="card story-list">
-      <ButtonVariant buttonType="button" class="user-story-list" classes="rounded" variant="white" icon="material-symbols:bookmark-add-outline-sharp"/>
+      <UiButtonVariant buttonType="button" class="btn-story-wishlist" classes="wishlist" variant="white" icon="material-symbols:bookmark-add-outline-sharp"/>
       <nuxt-link :to="`/story/${story.id}`" class="image">
         <img :src="getImageUrl(story.cover_image.formats.thumbnail.url)" class="" alt="...">
       </nuxt-link>
@@ -85,15 +90,12 @@
     color: #0e0e0e;
     font-weight: 500;
   }
-  
-  .user-story-list{
-    position: absolute;
-    top: .25rem;
-    right: .25rem;
-    transition: .3s;
+
+  .btn-story-wishlist{
+    opacity: 0;
   }
 
-  &:hover .user-story-list{
+  &:hover .btn-story-wishlist{
     opacity: 1;
   }
 }

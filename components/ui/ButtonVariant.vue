@@ -19,9 +19,18 @@
       type: String,
       required: false,
     },
+    iconRight: {
+      type: String,
+      required: false,
+    },
     content: {
       type: String,
       default: '',
+      required: false,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
       required: false,
     },
   })
@@ -33,9 +42,16 @@
   <button 
     v-if="buttonType=='button' || buttonType=='submit'" 
     :type="buttonType == 'submit' ? 'submit' : 'button'" 
+    :disabled="isLoading"
     :class="`btn btn-${variant} ${classes}`">
-    <Icon v-if="icon" :name="icon" class="icon"/>
-    {{ content }}
+    <Icon v-if="icon && !isLoading" :name="icon" class="icon"/>
+    <div v-else-if="isLoading" class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <span class="w-full" v-if="content">
+      {{ content }}
+    </span>
+    <Icon v-if="iconRight" :name="iconRight" class="icon"/>
   </button>
 
   <nuxt-link 
@@ -43,9 +59,16 @@
     :to="path">
     <button 
       type="button" 
+      :disabled="isLoading"
       :class="`btn btn-${variant} ${classes}`">
-      <Icon v-if="icon" :name="icon" class="icon"/>
-      {{ content }}
+      <Icon v-if="icon && !isLoading" :name="icon" class="icon"/>
+      <div v-else-if="isLoading" class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <span class="w-full" v-if="content">
+        {{ content }}
+      </span>
+      <Icon v-if="iconRight" :name="iconRight" class="icon"/>
     </button>
   </nuxt-link>
 </template>
@@ -78,24 +101,76 @@
       border: 1px solid #343434;
     }
 
-    &.rounded{
+    &.wishlist, &.wishlist-detail{
       border-radius: 50% !important;
       width: 3rem;
       height: 3rem;
       padding: 0;
-      opacity: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid #cccccc;
       font-size: 1.2em;
-      font-weight: normal;
+      font-weight: 400;
+      position: absolute;
+      top: .25rem;
+      right: .25rem;
+      transition: .3s;
+    }
+
+    &.wishlist-detail{
+      font-size: 1.5em;
+      width: 3.6rem;
+      height: 3.6rem;
+      top: .5rem;
+      right: .5rem;
     }
 
     .icon{
       display: flex;
       font-size: 1.25em;
       align-items: center;
+      margin: 0 .25rem;
+    }
+
+    .spinner-border{
+      width: 18px;
+      height: 18px;
+      margin-right: .75rem;
+    }
+
+    &.sidebar-button {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #eeeeee;
+      padding: 10px;
+      height: 48px;
+      font-size: 16px;
+      font-weight: 400;
+      justify-content: start;
+      text-align: left;
+      gap: .5rem;
+      color: #8f8f8f;
+
+      &:hover{
+        color: #0e0e0e;
+        background-color: #eee;
+      }
+    }
+    &.sidebar-logout-button{
+      width: 100%;
+      padding: 10px;
+      height: 48px;
+      font-size: 16px;
+      font-weight: 400;
+      justify-content: start;
+      text-align: left;
+      gap: .5rem;
+
+      &:hover{
+        color: #ffffff !important;
+        background-color: red;
+      }
     }
   }
 </style>

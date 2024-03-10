@@ -1,10 +1,5 @@
 <script lang="ts" setup>
   import * as yup from 'yup';
-  const emailRule = yup.string().email();
-  const requiredRule = yup.string().required();
-
-  const ruleA = yup.string().email()
-  const ruleB = ruleA.required()
 
   const props = defineProps({
     inputType: {
@@ -35,21 +30,49 @@
       default: false,
       required: false,
     },
+    rules: {
+      type: Object,
+      required: false
+    },
     modelValue: String,
   })
-
+  const showPassword = ref(false)
+  
+  // # Value setting for emit to parent element
   const emit = defineEmits(['update:modelValue']);
   const value = ref(props.modelValue);
-
   const updateValue = (event: any) => {
     value.value = event.target.value;
     emit('update:modelValue', value.value);
   };
-  const showPassword = ref(false)
-  const rules = emailRule
-  
-  // if(props.inputType == 'email')
-  //   rules.
+  // # End setting for emit to parent element
+
+  // # Define the rules of this input
+  let currentRules = null
+  if (props.rules) {
+    let tempRules = null
+
+    if (props.inputType == 'number') {
+      tempRules = yup.number()
+    } else if (props.inputType == 'email' && props.rules.isEmail){
+      tempRules = yup.string().email(`The ${props.label} field must be a valid email`)
+    } else {
+      tempRules = yup.string()
+      if (props.rules.mustMatchWith) {
+        tempRules = tempRules.oneOf([props.rules.mustMatchWith, null], `The ${props.label} field does not match`)
+      }
+    }
+
+    if (props.rules.required)
+      tempRules = tempRules.required(`${props.label} is a required field`)
+    if (props.rules.min)
+      tempRules = tempRules.min(props.rules.min, `${props.label} must be at least ${props.rules.min} characters`)
+
+    currentRules = tempRules
+  }
+  const rules = props.rules ? currentRules : null
+  // # END Define the rules of this input
+
 </script>
 
 <template>
@@ -64,7 +87,7 @@
           :class="classes" 
           :placeholder="placeholder"
           :value="value"
-          :rules="ruleB"
+          :rules="rules"
           @input="updateValue"
           />
         <Icon v-if="inputType == 'password'" class="show-password-toggler" :name="showPassword ? 'material-symbols:visibility-off-rounded' : 'material-symbols:visibility-rounded'" @click="showPassword = !showPassword"/>
@@ -91,6 +114,9 @@
 }
 .error-message{
   color: red;
+  font-weight: 400;
+  font-size: .9em;
+  margin-top: .25rem;
 }
   .form-control{
     height: 42px;

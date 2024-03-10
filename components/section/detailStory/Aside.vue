@@ -1,28 +1,36 @@
 <script lang="ts" setup>
   import { useRoute } from "vue-router"
   import { getImageUrl } from '~/utils/getImageUrl';
-  import { useMyStoryStore } from "~/stores/story"
 
-  const route = useRoute()
-  const storyStore = useMyStoryStore()
-  const { fetchDetailStory } = storyStore
-  const { detailStory } = storeToRefs(storyStore)
-
-  const loading = ref(true)
-
-  await fetchDetailStory(route.params.id); 
-
-  const { data } = detailStory.value as { data: any }
-
-  loading.value = false
+  defineProps({
+    detailStory: {
+      type: Object
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    },
+  })
 </script>
 <template>
-  <div class="aside shadow-sm">
+  <div v-if="!isLoading && detailStory" class="aside shadow-sm">
     <h6 class="title">Author</h6>
     <div class="info">
-      <img class="image" :src="getImageUrl(data.author.profile_picture.url)" alt="">
-      <h5 class="name">{{ data.author.name }}</h5>
-      <h5 class="biodata">{{ data.author.biodata }}</h5>
+      <img class="image" :src="getImageUrl(detailStory?.author.profile_picture.url)" alt="">
+      <h5 class="name">{{ detailStory.author.name }}</h5>
+      <h5 class="biodata">{{ detailStory.author.biodata }}</h5>
+    </div>
+  </div>
+  <div v-else-if="isLoading && detailStory" class="placeholder-glow aside shadow-sm">
+    <h6 class="placeholder title">Author</h6>
+    <div class="info">
+      <div class="placeholder image"></div>
+      <div class="col-12">
+        <h5 class="placeholder name">Test 123</h5>
+      </div>
+      <div class="col-12">
+        <h5 class="placeholder biodata">Test 12312312</h5>
+      </div>
     </div>
   </div>
 </template>

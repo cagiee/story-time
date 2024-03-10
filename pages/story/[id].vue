@@ -1,30 +1,24 @@
 <script lang="ts" setup>
-  import Navbar from '~/components/layouts/default/Navbar.vue'
   import Content from "~/components/section/detailStory/Content.vue"
   import Aside from "~/components/section/detailStory/Aside.vue"
-  import Footer from '~/components/layouts/default/Footer.vue'
+
+  const route = useRoute()
+
+  const isLoading = ref(true)
+
+  const { $api } = useNuxtApp()
+  const { data, error } = await $api.stories.getDetailStory(route.params.id)
+  const detailStory = ref(data.value?.data)
+
+  onMounted(() => isLoading.value = false)
 </script>
 <template>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <Content />
-        </div>
-        <div class="col-md-4">
-          <Aside />
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-8">
+      <Content :detailStory="detailStory" :isLoading="isLoading" />
     </div>
-  </main>
-  <Footer />
-
+    <div class="col-md-4">
+      <Aside :detailStory="detailStory" :isLoading="isLoading" />
+    </div>
+  </div>
 </template>
-<style lang="scss" scoped>
-  .container{
-    margin-top: 7.5rem;
-  }
-</style>

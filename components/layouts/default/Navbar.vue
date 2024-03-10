@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-  import ButtonVariant from '~/components/ui/ButtonVariant.vue'
+  import { useMyUserStore } from "~/stores/user";
+
+  const token = useCookie('token')
+  const route = useRoute()
+  const { user: userState, setUser } = useMyUserStore()
+  
+  const user: any = computed(() => route.path ? userState : null)
+  
 </script>
 
 <template>
@@ -8,16 +15,21 @@
       <nuxtLink class="navbar-brand" to="/">
         <img src="/images/logo.svg" alt="">
       </nuxtLink>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" ref="navbarToggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" v-if="!user" ref="navbar">
           <li class="nav-items">
-            <ButtonVariant buttonType="nuxtLink" path="/register" content="Register" variant="white"/>
+            <UiButtonVariant buttonType="nuxtLink" path="/register" content="Register" variant="white"/>
           </li>
           <li class="nav-items">
-            <ButtonVariant buttonType="nuxtLink" path="/" content="Login" variant="black"/>
+            <UiButtonVariant buttonType="nuxtLink" path="/login" content="Login" variant="black"/>
+          </li>
+        </ul>
+        <ul class="navbar-nav" v-else>
+          <li class="nav-items">
+            <UiButtonVariant buttonType="nuxtLink" path="/user" icon="material-symbols:account-circle" :content="user.name" variant="black"/>
           </li>
         </ul>
       </div>
