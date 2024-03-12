@@ -6,7 +6,6 @@
 
   const isLoading = ref(false)
   
-  const { $bToast } = useNuxtApp()
   const toasts: Ref<Object[]> = ref([]);
 
   const handleLogin = async () => {

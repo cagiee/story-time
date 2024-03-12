@@ -8,7 +8,6 @@
 
   const showForm = defineModel({ default: false })
   
-  const { $bToast } = useNuxtApp()
   const toasts: Ref<IToast[]> = ref([]);
 
   const name = ref(user.value?.name)
@@ -19,10 +18,9 @@
     isLoading.value = true
     const formData = new FormData()
     formData.append('name', name.value as string)
-    formData.append('email', email.value as string)
     formData.append('biodata', biodata.value as string)
 
-    const { data, error } = await $api.user.updateProfile(formData)
+    const { error } = await $api.user.updateProfile(formData)
 
     if(error.value){
       const { error: {message} }: any = error.value.data

@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-  import InputVariant from "~/components/ui/InputVariant.vue";
-
   const registerSuccess = defineModel({ default: false })
 
-  const { $api, $bToast } = useNuxtApp()
+  const { $api } = useNuxtApp()
   
   const name = ref('Cagie')
   const username = ref('cagie')
@@ -12,10 +10,10 @@
   const passwordConfirmation = ref('')
 
   const isLoading = ref(false)
-  const elementKey = ref(0);
   const toasts: Ref<Object[]> = ref([]);
-
+  
   // # Password Confirmation
+  const elementKey = ref(0);
   const confirmationRule = ref({
     required: true,
     mustMatchWith: ''
@@ -56,26 +54,26 @@
   <div class="shadow-sm mx-auto col-12 col-lg-5">
     <Form class="register-form" @submit="handleRegister">
       <h3>Register</h3>
-      <InputVariant
+      <UiInputVariant
         v-model="name"
         name="name"
         placeholder="Enter name" 
         label="Name" 
         :rules="{required: true}" />
-      <InputVariant
+      <UiInputVariant
         v-model="username"
         name="username"
         placeholder="Enter username" 
         label="Username" 
         :rules="{required: true, min: 3}" />
-      <InputVariant
+      <UiInputVariant
         v-model="email"
         inputType="email"
         name="email"
         placeholder="Enter email" 
         label="Email" 
         :rules="{required: true, isEmail: true}" />
-      <InputVariant
+      <UiInputVariant
         v-model="password"
         name="password"
         inputType="password"
@@ -83,7 +81,7 @@
         label="Password" 
         :rules="{required: true, min: 6}" 
         @input="updateConfirmationRules" />
-      <InputVariant
+      <UiInputVariant
         v-model="passwordConfirmation"
         name="passwordConfirmation"
         inputType="password" 

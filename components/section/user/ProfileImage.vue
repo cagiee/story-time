@@ -4,7 +4,7 @@
 
   const props = defineProps()
 
-  const { $api, $bModal, $bToast } = useNuxtApp()
+  const { $api, $bModal } = useNuxtApp()
   const { user: userData, setUser } = useMyUserStore() as any
 
   const cropper = ref()
@@ -72,7 +72,7 @@
 </script>
 
 <template>
-  <div class="profile-img-wrapper">
+  <div class="profile-img-wrapper mb-4">
     <div v-if="isLoading && !user.profile_picture" class="placeholder-glow">
       <div src="" class="profile-img placeholder" />
     </div>
