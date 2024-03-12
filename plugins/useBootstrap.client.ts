@@ -43,30 +43,10 @@ export default defineNuxtPlugin(() => {
   }
   /** End of Modal Instance */
 
-  /** Toast Instance */
-  const toasts: any = {}
-
-  const instanceToast = (id: string) => {
-    return bootstrap.Toast.getOrCreateInstance(`#${id}`)
-  }
-
-  interface Toast {
-    show: Function
-  }
-
-  const toast = {
-    show(id: string) {
-      instanceToast(id).show()
-      toasts[id] = instanceToast(id)
-    },
-  }
-  /** End of Toast Instance */
-
   return {
     provide: {
       bootstrap,
       bModal: modal,
-      bToast: toast,
     }
   }
 })

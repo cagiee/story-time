@@ -10,7 +10,7 @@
   const passwordConfirmation = ref('')
 
   const isLoading = ref(false)
-  const toasts: Ref<Object[]> = ref([]);
+  const $toast = useToast()
   
   // # Password Confirmation
   const elementKey = ref(0);
@@ -36,13 +36,10 @@
     })
     if(error.value){
       const { error: {message} }: any = error.value.data
-      toasts.value.push({
-        variant: 'danger',
-        title: 'Failed',
-        body: message
-      })
+      $toast.error(message)
     } else {
       registerSuccess.value = true
+      $toast.success("Register successfully")
     }
     
     isLoading.value = false
@@ -93,8 +90,6 @@
       <p>Already have account ? <nuxt-link to="/login">Login</nuxt-link></p>
     </Form>
   </div>
-  
-  <UiToast :toasts="toasts" />
 </template>
 <style lang="scss" scoped>
   .register-form{

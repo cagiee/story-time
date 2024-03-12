@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   const { $api } = useNuxtApp()
 
-  const toasts: Ref<IToast[]> = ref([])
+  const $toast = useToast()
 
   const showForm = ref(false)
   const currentPassword = ref()
@@ -29,7 +29,7 @@
 </script>
 
 <template>
-  <div class="border-0 p-4 shadow-sm">
+  <div class="user-page-card">
     <div class="header">
       <h1 class="title">Password</h1>
       <UiButtonVariant 
@@ -73,25 +73,8 @@
       </Form>
     </div>
   </div>
-  <div class="toast-container position-fixed top-0 end-0">
-    <UiToast 
-      v-for="(toast, i) in toasts" 
-      :id="`toast${i}`" 
-      :title="toast.title" 
-      :body="toast.body" 
-      :variant="toast.variant"  
-      :key="i" />
-  </div>
 </template>
 
 <style lang="scss" scoped>
-  .title{
-    font-size: 1.75em;
-  }
 
-  .header{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
 </style>

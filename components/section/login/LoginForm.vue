@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-  import InputVariant from "~/components/ui/InputVariant.vue";
-  
   const identifier = ref('testing9')
   const password = ref('12312')
 
   const isLoading = ref(false)
   
-  const toasts: Ref<Object[]> = ref([]);
-
   const handleLogin = async () => {
     isLoading.value = true
 
@@ -22,11 +18,8 @@
     if(error.value){
       const { error: {message} }: any = error.value.data
 
-      toasts.value.push({
-        variant: 'danger',
-        title: 'Failed',
-        body: message
-      })
+      const $toast = useToast();
+      let instance = $toast.error(message);
     } else {
       const token = useCookie('token')
       token.value = data.value?.data.jwt
@@ -35,7 +28,7 @@
     
       await setUser(!error.value ? userProfile.value?.data : null)
       
-      document.location = '/'
+      navigateTo('/')
     }
     
     isLoading.value = false
@@ -45,13 +38,13 @@
   <div class="shadow-sm mx-auto col-12 col-lg-5">
     <Form class="login-form" @submit="handleLogin">
       <h3>Login</h3>
-      <InputVariant
+      <UiInputVariant
         v-model="identifier"
         name="identifier"
         placeholder="Enter username or email" 
         label="Username or Email" 
         :rules="{required: true}" />
-      <InputVariant
+      <UiInputVariant
         v-model="password"
         name="password"
         inputType="password"
@@ -63,7 +56,6 @@
     </Form>
   </div>
   
-  <UiToast :toasts="toasts" />
 </template>
 <style lang="scss" scoped>
   .login-form{

@@ -10,7 +10,7 @@
   const cropper = ref()
   const inputProfileImage = ref()
   const cropperImageUrl = ref()
-  const toasts: Ref<IToast[]> = ref([])
+  const $toast = useToast()
   const isLoading = ref(true)
   const user = ref(userData) as any
 
@@ -31,11 +31,7 @@
       }
       reader.readAsDataURL(el.files[0])
     } else {
-      toasts.value.push({
-        variant: 'danger',
-        title: 'Failed',
-        body: "Maximum file size is 2MB"
-      })
+      $toast.error('Maximum file size is 2MB')
     }
   }
   /**
@@ -56,10 +52,18 @@
         await $api.user.deleteProfileImage(user.value.profile_picture.id)
 
       await $api.user.updateProfileImage(formData)
-      const { data: updatedUserData } = await $api.user.getProfile()
-      setUser(updatedUserData.value?.data)
-      user.value = updatedUserData.value?.data
-      
+      const { data: updatedUserData, error } = await $api.user.getProfile()
+
+      if (error.value) {
+        const { error: {message} }: any = error.value.data
+
+        $toast.error(message)
+      } else {
+        setUser(updatedUserData.value?.data)
+        user.value = updatedUserData.value?.data
+
+        $toast.success("Avatar changed successfully")
+      }
       
       $bModal.hide('cropperModal')
       isLoading.value = false
@@ -106,7 +110,6 @@
       Loading Cropper
     </div>
   </UiModal>
-  <UiToast :toasts="toasts" />
 </template>
 
 <style lang="scss" scoped>

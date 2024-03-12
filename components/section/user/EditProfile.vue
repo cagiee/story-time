@@ -8,7 +8,7 @@
 
   const showForm = defineModel({ default: false })
   
-  const toasts: Ref<IToast[]> = ref([]);
+  const $toast = useToast()
 
   const name = ref(user.value?.name)
   const email = ref(user.value?.email)
@@ -25,21 +25,13 @@
     if(error.value){
       const { error: {message} }: any = error.value.data
 
-      toasts.value.push({
-        variant: 'danger',
-        title: 'Failed',
-        body: message
-      })
+      $toast.error(message)
     } else {
       const { data: updatedUserData } = await $api.user.getProfile()
       setUser(updatedUserData.value?.data)
       user.value = updatedUserData.value?.data
 
-      toasts.value.push({
-        variant: 'success',
-        title: 'Success',
-        body: 'Successfully update profile'
-      })
+      $toast.success('Successfully update profile')
     }
 
     hideForm()
@@ -103,7 +95,6 @@
       </Form>
     </div>
   </div>
-  <UiToast :toasts="toasts" />
 </template>
 
 <style lang="scss" scoped>

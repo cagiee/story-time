@@ -15,3 +15,24 @@ a {
 .absolute{
   position: absolute;
 }
+.user-page-card{
+  border: 0;
+  box-shadow: 0 0 17px rgba($color: #000000, $alpha: .1);
+  padding: 2rem;
+
+  .title{
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+}
+.cursor-pointer{
+  cursor: pointer;
+}
