@@ -1,9 +1,17 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 a {
   text-decoration: none;
 }
 .w-full{
   width: 100%;
 }
+.h-full{
+  height: 100%;
+}
 .relative{
   position: relative;
+}
+.absolute{
+  position: absolute;
 }

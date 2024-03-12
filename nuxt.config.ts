@@ -1,9 +1,9 @@
 // nuxt.config.js/ts
 export default defineNuxtConfig({
   css: [
-    "bootstrap/scss/bootstrap.scss",
-    "cropperjs/dist/cropper.css",
+    // "bootstrap/scss/bootstrap.scss",
     "~/assets/css/main.scss",
+    "cropperjs/dist/cropper.css",
   ],
   app: {
     head: {

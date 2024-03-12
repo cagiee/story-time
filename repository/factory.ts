@@ -17,7 +17,7 @@ class FetchFactory<T> {
    * @returns 
    */
   async call(
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
     url: string,
     data?: object,
     fetchOptions?: FetchOptions<'json'>
@@ -25,6 +25,7 @@ class FetchFactory<T> {
     const token = useCookie('token')
     
     const headers = new Headers(fetchOptions?.headers)
+    headers.set('Accept', `application/json, text/plain, */*`)
     token.value ? headers.set('Authorization', `Bearer ${token.value || ''}`) : ''
     
     return this.$fetch<T>(

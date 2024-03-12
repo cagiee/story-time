@@ -25,7 +25,7 @@
       default: 'form-control',
       required: false
     },
-    isRequired: {
+    disabled: {
       type: Boolean,
       default: false,
       required: false,
@@ -37,7 +37,7 @@
     modelValue: String,
   })
   const showPassword = ref(false)
-  
+
   // # Value setting for emit to parent element
   const emit = defineEmits(['update:modelValue']);
   const value = ref(props.modelValue);
@@ -71,7 +71,7 @@
     currentRules = tempRules
   }
   const rules = props.rules ? currentRules : null
-  // # END Define the rules of this input
+  // # END Define the rules of this input 
 
 </script>
 
@@ -81,15 +81,37 @@
       <label v-if="label" class="mb-2" :for="props.name">{{ label }}</label>
       <div class="input-wrapper">
         <Field 
+          v-if="inputType != 'textarea'"
           :id="props.name"
           :name="props.name"
+          :value="value"
           :type="inputType == 'password' && showPassword ? 'text' : inputType"
           :class="classes" 
           :placeholder="placeholder"
-          :value="value"
           :rules="rules"
+          :disabled="disabled"
           @input="updateValue"
           />
+
+        <Field 
+          v-else
+          :name="props.name"
+          v-slot="{field}"
+          :rules="rules"
+          >
+          <textarea 
+            :id="props.name"
+            v-bind="field" 
+            :class="classes" 
+            :name="props.name" 
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :value="value"
+            @input="updateValue"
+            >
+          </textarea>
+          <!-- <ErrorMessage v-bind="field" class="error-message"/> -->
+        </Field>
         <Icon v-if="inputType == 'password'" class="show-password-toggler" :name="showPassword ? 'material-symbols:visibility-off-rounded' : 'material-symbols:visibility-rounded'" @click="showPassword = !showPassword"/>
       </div>
       <ErrorMessage :name="props.name" class="error-message"/>
@@ -129,5 +151,8 @@
   }
   .form-group{
     position: relative;
+  }
+  textarea{
+    min-height: 100px;
   }
 </style>

@@ -95,15 +95,8 @@
       <p>Already have account ? <nuxt-link to="/login">Login</nuxt-link></p>
     </Form>
   </div>
-  <div class="toast-container position-fixed top-0 end-0">
-    <UiToast 
-      v-for="(toast, i) in toasts" 
-      :id="`toast${i}`" 
-      :title="toast.title" 
-      :body="toast.body" 
-      :variant="toast.variant"  
-      :key="i" />
-  </div>
+  
+  <UiToast :toasts="toasts" />
 </template>
 <style lang="scss" scoped>
   .register-form{

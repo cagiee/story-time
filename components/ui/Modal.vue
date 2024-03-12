@@ -11,6 +11,11 @@
       type: String,
       default: 'Close',
       required: false
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   })
 </script>
@@ -27,7 +32,7 @@
         </div>
         <div class="modal-footer">
           <UiButtonVariant button-type="button" variant="white" :content="cancelButtonText" data-bs-dismiss="modal" />
-          <UiButtonVariant button-type="button" variant="black" :content="confirmButtonText" @click="$emit('confirmButtonClick')" />
+          <UiButtonVariant button-type="button" variant="black" :content="confirmButtonText" @click="$emit('confirmButtonClick')" :is-loading="isLoading" />
         </div>
       </div>
     </div>

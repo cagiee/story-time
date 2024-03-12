@@ -3,9 +3,15 @@
 
   const token = useCookie('token')
   const route = useRoute()
-  const { user: userState, setUser } = useMyUserStore()
+  const { $checkAuth } = useNuxtApp()
   
-  const user: any = computed(() => route.path ? userState : null)
+  const user: any = computed(() => {
+    route.path ? $checkAuth() : ''
+
+    const { user: userState } = useMyUserStore()
+
+    return userState
+  })
   
 </script>
 
