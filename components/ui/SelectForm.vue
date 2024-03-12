@@ -5,6 +5,10 @@
       type: String,
       required: false
     },
+    label: {
+      type: String,
+      required: false
+    },
     options: {
       type: Array,
       default: [{
@@ -15,7 +19,7 @@
     selected: {
       type: String,
       required: false
-    }
+    },
   })
 
   // # Value setting for emit to parent element
@@ -29,10 +33,15 @@
 
 </script>
 <template lang="">
-  <select class="form-select" @change="updateValue">
-    <option value="" selected>{{ placeholder || '' }}</option>
-    <option v-for="(option, i) in options" :key="i" :value="option.value">{{ option.text }}</option>
-  </select>
+  <div class="form-group">
+    <label v-if="label" class="mb-2">{{ label }}</label>
+    <div class="select-wrapper">
+      <select class="form-select" @change="updateValue">
+        <option value="" selected disabled>{{ placeholder || '' }}</option>
+        <option v-for="(option, i) in options" :key="i" :value="option.value">{{ option.text }}</option>
+      </select>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
   .form-select{

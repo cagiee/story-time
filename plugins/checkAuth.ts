@@ -14,9 +14,4 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   checkAuth()
 
-  return {
-    provide: {
-      checkAuth
-    }
-  }
 })

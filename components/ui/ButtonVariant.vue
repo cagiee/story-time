@@ -126,6 +126,12 @@
       right: .5rem;
     }
 
+    &.btn-sm{
+      padding: 0 1rem;
+      height: 36px;
+      font-size: .9em;
+    }
+
     .icon{
       display: flex;
       font-size: 1.25em;
@@ -171,6 +177,12 @@
         color: #ffffff !important;
         background-color: red;
       }
+    }
+
+    &.rounded-full{
+      border-radius: 50%;
+      padding: 0;
+      aspect-ratio: 1 / 1;
     }
   }
 </style>

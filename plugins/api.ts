@@ -7,11 +7,13 @@ import { $fetch, FetchOptions } from 'ofetch';
 import StoriesModule from '~/repository/modules/story';
 import AuthModule from '~/repository/modules/auth';
 import UserModule from '~/repository/modules/user';
+import CategoryModule from '~/repository/modules/category';
 
 interface IApiInstance {
   stories: StoriesModule,
   auth: AuthModule,
   user: UserModule,
+  category: CategoryModule,
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -29,6 +31,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     stories: new StoriesModule(apiFecther),
     auth: new AuthModule(apiFecther),
     user: new UserModule(apiFecther),
+    category: new CategoryModule(apiFecther),
   };
 
   return {

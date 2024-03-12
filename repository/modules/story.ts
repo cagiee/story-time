@@ -25,6 +25,7 @@ type IDetailStoryResponse = {
 
 class StoriesModule extends FetchFactory<IStoriesResponse>{
   private RESOURCE = '/api/stories'
+  private UPLOAD = '/api/upload'
 
   /**
     * Return the stories as IStoriesResponse 
@@ -60,6 +61,31 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
       return this.call(
         'GET',
         `${this.RESOURCE}/${id}`,
+      )
+    })
+  }
+
+  async createStory(
+    body: any,
+    asyncDataOptions?: AsyncDataOptions<IDetailStoryResponse>
+  ){
+    return useAsyncData(() => {
+      return this.call(
+        'POST',
+        this.RESOURCE,
+        body
+      )
+    })
+  }
+
+  async uploadStoryImage(
+    body: any,
+  ){
+    return useAsyncData(() => {
+      return this.call(
+        'POST',
+        this.UPLOAD,
+        body
       )
     })
   }

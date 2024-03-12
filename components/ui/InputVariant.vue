@@ -12,7 +12,6 @@
     },
     label: {
       type: String,
-      default: '',
       required: false
     },
     name: {
@@ -33,6 +32,14 @@
     rules: {
       type: Object,
       required: false
+    },
+    options: {
+      type: Array as any,
+      required: false,
+    },
+    selectedOption: {
+      type: String,
+      required: false,
     },
     modelValue: String,
   })
@@ -71,30 +78,22 @@
     currentRules = tempRules
   }
   const rules = props.rules ? currentRules : null
-  // # END Define the rules of this input 
+  // # END Define the rules of this input   
 
 </script>
 
 <template>
   <div>
     <div class="form-group">
-      <label v-if="label" class="mb-2" :for="props.name">{{ label }}</label>
-      <div class="input-wrapper">
-        <Field 
-          v-if="inputType != 'textarea'"
-          :id="props.name"
-          :name="props.name"
-          :value="value"
-          :type="inputType == 'password' && showPassword ? 'text' : inputType"
-          :class="classes" 
-          :placeholder="placeholder"
-          :rules="rules"
-          :disabled="disabled"
-          @input="updateValue"
-          />
 
+      <!-- Show label if label prop is exist -->
+      <label v-if="label" class="mb-2" :for="props.name">{{ label }}</label>
+      
+      <div class="input-wrapper">
+
+        <!-- Show the textarea input if inputType is `textarea` -->
         <Field 
-          v-else
+          v-if="inputType == 'textarea'"
           :name="props.name"
           v-slot="{field}"
           :rules="rules"
@@ -110,11 +109,42 @@
             @input="updateValue"
             >
           </textarea>
-          <!-- <ErrorMessage v-bind="field" class="error-message"/> -->
         </Field>
+
+        <!-- Show the combobox input if inputType is `select` -->
+        <Field
+          v-else-if="inputType == 'select'"
+          :name="props.name"
+          v-slot="{field}"
+          :class='`form-select ${classes}`'
+          :rules="rules"
+          as='select'
+          @change="updateValue"
+          >
+          <option value="" :selected="!selectedOption" disabled>{{ placeholder }}</option>
+          <option v-for="(option, i) in options" :key="i" :value="option.value" :selected="selectedOption == option.value">{{ option.text }}</option>
+        </Field>
+        
+        <!-- Show the input form if inputType is not `textarea` and not `select` -->
+        <Field 
+          v-else
+          :id="props.name"
+          :name="props.name"
+          :value="value"
+          :type="inputType == 'password' && showPassword ? 'text' : inputType"
+          :class="`${classes}`" 
+          :placeholder="placeholder"
+          :rules="rules"
+          :disabled="disabled"
+          @input="updateValue"
+          />
+
+        <!-- Show the reveal password icon if inputType is `password` -->
         <Icon v-if="inputType == 'password'" class="show-password-toggler" :name="showPassword ? 'material-symbols:visibility-off-rounded' : 'material-symbols:visibility-rounded'" @click="showPassword = !showPassword"/>
       </div>
-      <ErrorMessage :name="props.name" class="error-message"/>
+
+      <!-- Used for show the vee-valudate error message if exist -->
+      <ErrorMessage :name="props.name" class="error-message" />
     </div>
   </div>
 </template>
@@ -154,5 +184,14 @@
   }
   textarea{
     min-height: 100px;
+  }
+  .form-select{
+    height: 42px;
+    border-radius: 0;
+
+    &:focus{
+      border: 1px solid #000000;
+      box-shadow: none;
+    }
   }
 </style>
