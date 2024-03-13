@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 const { $api } = useNuxtApp()
+const route = useRoute()
 
-const title = ref()
-const category = ref()
-const content = ref()
-const coverImage = ref()
+const { data } = await $api.stories.getDetailStory(route.params.id)
+const detailStory = data.value?.data
+
+const title = ref(detailStory.title)
+const category = ref(detailStory.category.id)
+const content = ref(detailStory.content)
+const coverImage = ref(detailStory.cover_image)
 
 const isLoading = ref(false)
 const $toast = useToast()
@@ -19,60 +23,57 @@ const categoryList = categories.value?.data.map(item => {
   }
 })
 
-const validate = () => {
+const validate = () => {  
   if(!content.value || content.value == '<p><br></p>'){
     quillValidate.value = 'Content is required'
   } else {
     quillValidate.value = ''
-  }
-  
-  if(!coverImage.value){
-    coverImageValidate.value = 'Cover Image is required'
-  } else {
-    coverImageValidate.value = ''
-  }
-  
+  }  
 
-  return !quillValidate.value && !coverImageValidate.value
+  return !quillValidate.value
 }
 
 const handleSubmit = async () => {
-  
   if(!validate())
     return
   
   isLoading.value = true
-  const formDataCreate = new FormData()
-  formDataCreate.append('title', title.value)
-  formDataCreate.append('category', category.value)
-  formDataCreate.append('content', content.value.html)
 
-  const { data: newStory, error: errorCreate }: any = await $api.stories.createStory(formDataCreate)
+  const { data: updateStory, error: errorCreate }: any = await $api.stories.updateStory(route.params.id, {
+    data: {
+      title: title.value,
+      category: category.value,
+      content: content.value,
+    }
+  })
     
   if(errorCreate.value){
     const { error: {message} }: any = errorCreate.value.data
     $toast.error(message)
   } else {
-    
-    const formDataUpload = new FormData()
-    formDataUpload.append('files', coverImage.value)
-    formDataUpload.append('refId', newStory.value?.data.id)
-    formDataUpload.append('ref', 'api::story.story')
-    formDataUpload.append('field', 'cover_image')
-    
-    const { error: errorUpload } = await $api.stories.uploadStoryImage(formDataUpload)
+    if(coverImage.value){
+      await $api.stories.deleteStoryImage(data.value?.data.cover_image.id)
 
-    if (errorUpload.value) {
-      const { error: {message} }: any = errorUpload.value.data
-      $toast.error(message)
-    } else {
-      $toast.success('Successfully create new story')
-      navigateTo('/user/story')
-    }    
+      const formDataUpload = new FormData()
+      formDataUpload.append('files', coverImage.value)
+      formDataUpload.append('refId', updateStory.value?.data.id)
+      formDataUpload.append('ref', 'api::story.story')
+      formDataUpload.append('field', 'cover_image')
+      
+      const { error: errorUpload } = await $api.stories.uploadStoryImage(formDataUpload)
+  
+      if (errorUpload.value) {
+        const { error: {message} }: any = errorUpload.value.data
+        $toast.error(message)
+        return
+      }    
+    }
+    $toast.success('Story updated successfully')
+    navigateTo('/user/story')
   }
+
   isLoading.value = false
 }
-
 </script>
 
 <template>
@@ -80,7 +81,7 @@ const handleSubmit = async () => {
     <div class="header">
       <h1 class="title">
         <icon name="material-symbols:arrow-back-rounded" class="cursor-pointer" @click="navigateTo('/user/story')" />
-        Create Story
+        Edit Story
       </h1>
     </div>
     <Form class="d-flex flex-column gap-4" @submit="handleSubmit" @invalid-submit="validate">

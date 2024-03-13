@@ -41,17 +41,19 @@
       type: String,
       required: false,
     },
-    modelValue: String,
+    // modelValue: String,
   })
+  const modelValue = defineModel()
   const showPassword = ref(false)
 
   // # Value setting for emit to parent element
-  const emit = defineEmits(['update:modelValue']);
-  const value = ref(props.modelValue);
-  const updateValue = (event: any) => {
-    value.value = event.target.value;
-    emit('update:modelValue', value.value);
-  };
+  // const emit = defineEmits(['update:modelValue']);
+  
+  // const value = ref(modelValue.value);
+  // const updateValue = (event: any) => {
+  //   value.value = event.target.value
+  //   emit('update:modelValue', value.value)
+  // };
   // # End setting for emit to parent element
 
   // # Define the rules of this input
@@ -105,9 +107,9 @@
             :name="props.name" 
             :placeholder="placeholder"
             :disabled="disabled"
-            :value="value"
-            @input="updateValue"
+            v-model="modelValue"
             >
+            <!-- @input="updateValue" -->
           </textarea>
         </Field>
 
@@ -116,13 +118,13 @@
           v-else-if="inputType == 'select'"
           :name="props.name"
           v-slot="{field}"
-          :class='`form-select ${classes}`'
-          :rules="rules"
-          as='select'
-          @change="updateValue"
+          v-model="modelValue"
           >
-          <option value="" :selected="!selectedOption" disabled>{{ placeholder }}</option>
-          <option v-for="(option, i) in options" :key="i" :value="option.value" :selected="selectedOption == option.value">{{ option.text }}</option>
+          <!-- @change="updateValue" -->
+          <select name="" v-bind="field" :class='`form-select ${classes}`' :rules="rules" id="">
+            <option value="" disabled>{{ placeholder }}</option>
+            <option v-for="option in options" :key="option" :value="option.value">{{ option.text }}</option>
+          </select>
         </Field>
         
         <!-- Show the input form if inputType is not `textarea` and not `select` -->
@@ -130,14 +132,14 @@
           v-else
           :id="props.name"
           :name="props.name"
-          :value="value"
+          v-model="modelValue"
           :type="inputType == 'password' && showPassword ? 'text' : inputType"
           :class="`${classes}`" 
           :placeholder="placeholder"
           :rules="rules"
           :disabled="disabled"
-          @input="updateValue"
           />
+          <!-- @input="updateValue" -->
 
         <!-- Show the reveal password icon if inputType is `password` -->
         <Icon v-if="inputType == 'password'" class="show-password-toggler" :name="showPassword ? 'material-symbols:visibility-off-rounded' : 'material-symbols:visibility-rounded'" @click="showPassword = !showPassword"/>

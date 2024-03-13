@@ -1,15 +1,10 @@
 <script lang="ts" setup>
+const coverImage: any = defineModel()
+const emit = defineEmits(['update:modelValue'])
 
 const inputCoverImage = ref()
-const coverImagePreview = ref()
+const coverImagePreview = ref(coverImage.value ? getImageUrl(coverImage.value.url) : null)
 const $toast = useToast()
-
-defineProps({
-  coverImage: {
-    type: Object
-  }
-})
-const emit = defineEmits(['update:modelValue'])
 
 const handleCoverImageChange = (event: any) => {
   const file = event.target.files[0]
@@ -28,6 +23,10 @@ const handleCoverImageChange = (event: any) => {
 }
 const clearCoverImage = () => {  
   coverImagePreview.value = inputCoverImage.value.value = null
+  emit('update:modelValue', undefined)
+}
+
+if (coverImage.value) {
   emit('update:modelValue', undefined)
 }
 </script>

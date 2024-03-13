@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   const { $api, $bModal } = useNuxtApp()
+  const route = useRoute()
   const { user } = useMyUserStore() as any
   const $toast = useToast()
   const deleteLoading = ref(false)
@@ -12,7 +13,8 @@
     tableLoading.value = true
     const { data }: any = await $api.stories.getStories({
       params: {
-        author: user.id
+        author: user.id,
+        page: route.query.page || 1,
       }
     })
     storyList.value = data.value.data
@@ -59,7 +61,7 @@
     $bModal.hide('deleteModal')
     deleteLoading.value = false
   }
-  
+
 </script>
 
 <template>
@@ -89,7 +91,7 @@
             <td>{{ story.title }}</td>
             <td>{{ formatDate(story.updatedAt) }}</td>
             <td class="d-flex gap-2">
-              <UiButtonVariant icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}`" variant="white" classes="btn-sm" content="Edit" />
+              <UiButtonVariant icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}/edit`" variant="white" classes="btn-sm" content="Edit" />
               <UiButtonVariant icon="material-symbols:delete" buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" @click="showDeleteModal(story.id)" />
             </td>
           </tr>

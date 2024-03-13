@@ -57,8 +57,6 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
     id: any,
     asyncDataOptions?: AsyncDataOptions<IDetailStoryResponse>
   ){
-    console.log(`${this.RESOURCE}/${id}`)
-    
     return useAsyncData(() => {
       return this.call(
         'GET',
@@ -75,6 +73,20 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
       return this.call(
         'POST',
         this.RESOURCE,
+        body
+      )
+    })
+  }
+
+  async updateStory(
+    id: any,
+    body: any,
+    asyncDataOptions?: AsyncDataOptions<IDetailStoryResponse>
+  ){
+    return useAsyncData(() => {
+      return this.call(
+        'PUT',
+        `${this.RESOURCE}/${id}`,
         body
       )
     })
@@ -99,6 +111,17 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
       return this.call(
         'DELETE',
         `${this.RESOURCE}/${id}`
+      )
+    })
+  }
+  
+  async deleteStoryImage(
+    id: any
+  ){
+    return useAsyncData(() => {
+      return this.call(
+        'DELETE',
+        `${this.UPLOAD}/files/${id}`
       )
     })
   }
