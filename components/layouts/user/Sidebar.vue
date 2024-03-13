@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   const { $bModal } = useNuxtApp()
+  const { setUser } = useMyUserStore()
 
   const showLogoutModal = () => $bModal.show('logoutModal')
 
@@ -7,7 +8,8 @@
     const token = useCookie('token')
     token.value = ''
     await $bModal.hide('logoutModal')
-    navigateTo('/')
+    await setUser(null)
+    await navigateTo('/')
   }
 </script>
 <template>

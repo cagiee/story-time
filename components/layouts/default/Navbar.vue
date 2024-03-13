@@ -1,15 +1,5 @@
 <script lang="ts" setup>
-  import { useMyUserStore } from "~/stores/user";
-
-  const token = useCookie('token')
-  const route = useRoute()
-  
-  const user: any = computed(() => {
-    const { user: userState } = useMyUserStore()
-
-    return userState
-  })
-  
+  const user: any = useMyUserStore()
 </script>
 
 <template>
@@ -22,7 +12,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="navbar-nav" v-if="!user" ref="navbar">
+        <ul class="navbar-nav" v-if="!user.user" ref="navbar">
           <li class="nav-items">
             <UiButtonVariant buttonType="nuxtLink" path="/register" content="Register" variant="white"/>
           </li>
@@ -32,7 +22,7 @@
         </ul>
         <ul class="navbar-nav" v-else>
           <li class="nav-items">
-            <UiButtonVariant buttonType="nuxtLink" path="/user" icon="material-symbols:account-circle" :content="user.name" variant="black"/>
+            <UiButtonVariant buttonType="nuxtLink" path="/user" icon="material-symbols:account-circle" :content="user.user.name" variant="black"/>
           </li>
         </ul>
       </div>

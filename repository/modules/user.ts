@@ -22,6 +22,7 @@ class UserModule extends FetchFactory<{ data: IProfile }>{
   private UPLOAD = '/api/upload'
 
   async getProfile(
+    fetchOption?: FetchOptions<"json">,
     asyncDataOptions?: AsyncDataOptions<{ data: IProfile }>
   ){
     return useAsyncData(() => {
@@ -29,6 +30,8 @@ class UserModule extends FetchFactory<{ data: IProfile }>{
       return this.call(
         'GET',
         `${this.RESOURCE}/me`,
+        undefined,
+        fetchOption
       )
     })
   }

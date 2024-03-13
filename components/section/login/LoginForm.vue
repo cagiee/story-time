@@ -22,13 +22,19 @@
       let instance = $toast.error(message);
     } else {
       const token = useCookie('token')
-      token.value = data.value?.data.jwt
-
-      const { data: userProfile, error } = await $api.user.getProfile()
-    
-      await setUser(!error.value ? userProfile.value?.data : null)
       
-      navigateTo('/')
+      token.value = data.value?.data.jwt
+      
+
+      const { data: userProfile, error } = await $api.user.getProfile({
+        headers: {
+          authorization: `Bearer ${token.value}` || ''
+        }
+      })
+      
+      await setUser(userProfile.value?.data)
+      
+      await navigateTo('/')
     }
     
     isLoading.value = false
