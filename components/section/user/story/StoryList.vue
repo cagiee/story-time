@@ -1,15 +1,27 @@
 <script lang="ts" setup>
-  const { $api } = useNuxtApp()
+  const { $api, $bModal } = useNuxtApp()
   const { user } = useMyUserStore() as any
+  const $toast = useToast()
+  const deleteLoading = ref(false)
+  const tableLoading = ref(true)
 
-  const { data }: any = await $api.stories.getStories({
-    params: {
-      author: user.id
-    }
-  })
+  const storyList: Ref<IStory[]> = ref([])
+  const pagination = ref()
+  
+  const loadData = async () => {
+    tableLoading.value = true
+    const { data }: any = await $api.stories.getStories({
+      params: {
+        author: user.id
+      }
+    })
+    storyList.value = data.value.data
+    pagination.value = data.value.meta.pagination
+    tableLoading.value = false
+    
+  }
 
-  const storyList = ref(data.value.data)
-  const pagination = ref(data.value.meta.pagination)
+  loadData()
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -25,6 +37,27 @@
     const result = `${formattedTime}, ${formattedDate}`
 
     return result
+  }
+
+  const deleteDataId = ref()
+  const showDeleteModal = (id: any) => {
+    $bModal.show('deleteModal')
+    deleteDataId.value = id
+  }
+  const handleDelete = async () => {
+    deleteLoading.value = true
+    const { error } = await $api.stories.deleteStory(deleteDataId.value)
+
+    if (error.value) {
+      const { error: {message} }: any = error.value.data
+      $toast.error(message)
+    } else {
+      $toast.success('Story deleted successfully')
+    }
+
+    loadData()
+    $bModal.hide('deleteModal')
+    deleteLoading.value = false
   }
   
 </script>
@@ -51,16 +84,16 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="!tableLoading">
           <tr v-for="story in storyList" :key="story.id">
             <td>{{ story.title }}</td>
             <td>{{ formatDate(story.updatedAt) }}</td>
             <td class="d-flex gap-2">
-              <UiButtonVariant buttonType="button" variant="white" classes="btn-sm" content="Edit" />
-              <UiButtonVariant buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" />
+              <UiButtonVariant icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}`" variant="white" classes="btn-sm" content="Edit" />
+              <UiButtonVariant icon="material-symbols:delete" buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" @click="showDeleteModal(story.id)" />
             </td>
           </tr>
-          <tr>
+          <tr v-if="storyList.length == 0">
             <td colspan="3">
               <div class="" align="center">
                 <img class="my-3" src="/images/empty-data.svg" width="100px" alt="">
@@ -69,16 +102,25 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="99">Loading Data</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
+  <UiModal id="deleteModal" confirmButtonText="Delete" cancelButtonText="Cancel" title="Delete Story" @confirm-button-click="handleDelete">
+    <p>Are you sure want to delete this story?</p>
+  </UiModal>
 </template>
 
 <style lang="scss" scoped>
   th{
     font-weight: 600;
+    padding-bottom: 10px;
   }
-  th,td{
-    padding-bottom: 20px;
+  td{
+    vertical-align: middle;
   }
 </style>

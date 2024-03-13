@@ -15,7 +15,7 @@ type IStory = {
 }
 
 type IStoriesResponse = {
-  data: IStory[],
+  data: any,
   meta: object
 }
 
@@ -57,6 +57,8 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
     id: any,
     asyncDataOptions?: AsyncDataOptions<IDetailStoryResponse>
   ){
+    console.log(`${this.RESOURCE}/${id}`)
+    
     return useAsyncData(() => {
       return this.call(
         'GET',
@@ -86,6 +88,17 @@ class StoriesModule extends FetchFactory<IStoriesResponse>{
         'POST',
         this.UPLOAD,
         body
+      )
+    })
+  }
+
+  async deleteStory(
+    id: string
+  ){
+    return useAsyncData(() => {
+      return this.call(
+        'DELETE',
+        `${this.RESOURCE}/${id}`
       )
     })
   }

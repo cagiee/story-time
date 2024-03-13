@@ -27,7 +27,7 @@
     <div class="card story-list">
       <UiButtonVariant buttonType="button" class="btn-story-wishlist" classes="wishlist" variant="white" icon="material-symbols:bookmark-add-outline-sharp"/>
       <nuxt-link :to="`/story/${story.id}`" class="image">
-        <img :src="getImageUrl(story.cover_image.formats.thumbnail.url)" class="" alt="...">
+        <img :src="story.cover_image.url ? getImageUrl(story.cover_image.url) : '/images/404.svg'" class="" alt="...">
       </nuxt-link>
       <div class="card-body">
         <nuxt-link :to="`/story/${story.id}`" class="title">{{ story.title }}</nuxt-link>

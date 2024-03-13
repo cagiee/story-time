@@ -28,6 +28,7 @@ const handleCoverImageChange = (event: any) => {
 }
 const clearCoverImage = () => {  
   coverImagePreview.value = inputCoverImage.value.value = null
+  emit('update:modelValue', undefined)
 }
 </script>
 

@@ -8,6 +8,8 @@ const coverImage = ref()
 
 const isLoading = ref(false)
 const $toast = useToast()
+const quillValidate = ref()
+const coverImageValidate = ref()
 
 const { data: categories } = await $api.category.getCategoryList()
 const categoryList = categories.value?.data.map(item => {
@@ -17,12 +19,34 @@ const categoryList = categories.value?.data.map(item => {
   }
 })
 
+const validate = () => {
+  if(!content.value?.text || content.value?.html == '<p><br></p>'){
+    quillValidate.value = 'Content is required'
+  } else {
+    quillValidate.value = ''
+  }
+  
+  if(!coverImage.value){
+    coverImageValidate.value = 'Cover Image is required'
+  } else {
+    coverImageValidate.value = ''
+  }
+  
+
+  return !quillValidate.value && !coverImageValidate.value
+}
+
 const handleSubmit = async () => {
+  console.log(validate());
+  
+  if(!validate())
+    return
+  
   isLoading.value = true
   const formDataCreate = new FormData()
   formDataCreate.append('title', title.value)
   formDataCreate.append('category', category.value)
-  formDataCreate.append('content', content.value)
+  formDataCreate.append('content', content.value.html)
 
   const { data: newStory, error: errorCreate }: any = await $api.stories.createStory(formDataCreate)
     
@@ -60,7 +84,7 @@ const handleSubmit = async () => {
         Create Story
       </h1>
     </div>
-    <Form class="d-flex flex-column gap-4">
+    <Form class="d-flex flex-column gap-4" @submit="handleSubmit" @invalid-submit="validate">
       <UiInputVariant 
         inputType="text"
         name="title"
@@ -78,12 +102,28 @@ const handleSubmit = async () => {
         :rules="{required: true}"
         :options="categoryList"
         />
-      <UiQuillEditor v-model="content" label="Content" />
-      <SectionUserStoryCoverImage v-model="coverImage" />
+      <div class="quill-wrapper">
+        <UiQuillEditor v-model="content" label="Content" />
+        <p class="error-message" v-if="quillValidate">{{ quillValidate }}</p>
+      </div>
+      <div class="">
+        <SectionUserStoryCoverImage v-model="coverImage" />
+        <p class="error-message" v-if="coverImageValidate">{{ coverImageValidate }}</p>
+      </div>
       <div class="d-flex justify-content-end gap-2">
         <UiButtonVariant buttonType="nuxtLink" path="/user/story" variant="white" content="Cancel" />
-        <UiButtonVariant buttonType="submit" variant="black" :isLoading="isLoading" content="Submit" @click="handleSubmit" />
+        <UiButtonVariant buttonType="submit" variant="black" :isLoading="isLoading" content="Submit" />
       </div>
     </Form>
   </div>
 </template>
+
+<style lang="scss" scoped>
+  .error-message{
+    color: red;
+    font-weight: 400;
+    font-size: .9em;
+    margin-top: .25rem;
+    margin-bottom: 0;
+  }
+</style>
