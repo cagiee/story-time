@@ -7,10 +7,10 @@
 
 <template>
   <div>
-    <SectionUserStoryCreateStory />
+    <SectionUserBookmarkList />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style>
 
 </style>

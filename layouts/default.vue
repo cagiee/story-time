@@ -7,7 +7,7 @@
     <LayoutsDefaultNavbar :key="route.path"/>
   </header>
   <main>
-    <div class="container">
+    <div class="container" :class="route.path == '/' ? 'landing-container' : ''">
       <slot />
     </div>
   </main>
@@ -17,7 +17,10 @@
 <style lang="scss" scoped>
 
 .container{
-  margin-top: 7.5rem;
   min-height: calc(100vh - 78px);
+  
+  &:not(.landing-container){
+    margin-top: 7.5rem;
+  }
 }
 </style>

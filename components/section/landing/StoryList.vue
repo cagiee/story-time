@@ -76,8 +76,8 @@
         <UiSelectForm v-model="sort" :options="sortOptions" classes="w-" placeholder="Sort" @change="searchAndSort"/>
       </div>
     </div>
-    <div class="row">
-      <UiStoryListCard v-for="story in stories" :key="story.id" :story="story"/>
+    <div class="row equal-height-row row-gap-4">
+      <UiStoryListCard v-for="story in stories" :key="story.id" :story="story" class="col-6 col-sm-4 col-xl-3" />
       <div v-if="isLoading" class="placeholder-glow col-6 col-md-6 col-lg-4 col-xl-3" v-for="i in 10" :key="i">
         <div class="placeholder story-card-placeholder"></div>
       </div>

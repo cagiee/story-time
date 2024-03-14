@@ -1,9 +1,15 @@
 <script lang="ts" setup>
   import { getImageUrl } from '~/utils/getImageUrl';
-  
-  defineProps({
+
+  const props = defineProps({
     story: Object
   })
+
+  const { user } = useMyUserStore();
+
+  const $toast = useToast()
+  
+  const story = ref(props.story)
 
   /**
    * Return date from any format to DD-mm-YY
@@ -21,11 +27,80 @@
     return formattedDate
   }
 
+  const bookmarked = ref(false)
+
+  const icon = computed(() => {
+    return !bookmarked.value ? "material-symbols:bookmark-add-outline-sharp" : "material-symbols:bookmark"
+  })
+  
+  const emit = defineEmits(['loadBookmark'])
+
+  const bookmarkStory = async () => {
+    const maxBookmarkCapacity = 30
+
+    const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
+
+    if (!user)
+      return navigateTo('/login')
+
+    if (!story.value)
+      return $toast.error('Story undefined')
+
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == story.value?.id)
+
+    if(currentBookmark.length >= maxBookmarkCapacity && foundedIndex == -1) {
+      return $toast.error("You have reached the maximum bookmark capacity limit (30)")
+    }
+
+    if (foundedIndex == -1){
+      currentBookmark.push({
+        id: story.value.id,
+        title: story.value.title,
+        author: {
+          name: story.value.author.name,
+          username: story.value.author.username,
+        },
+        category: {
+          name: story.value.category.name
+        },
+        cover_image: {
+          url: story.value.cover_image.url
+        },
+        updatedAt: story.value.updatedAt,
+      })
+      bookmarked.value = true
+      $toast.success('Successfully added story to bookmark')
+    }
+    else{
+      currentBookmark.splice(foundedIndex, 1)
+      bookmarked.value = false
+      $toast.success('Successfully removed story from bookmark')
+    }
+    
+    const newBookmark = JSON.stringify(currentBookmark)
+    
+    localStorage.setItem('bookmark', newBookmark)
+
+    emit('loadBookmark')
+  }
+
+  onMounted(() => {
+    const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == story.value?.id)
+    bookmarked.value = foundedIndex > -1
+  })
 </script>
 <template lang="">
-  <div class="col-6 col-lg-4 col-xl-3">
+  <div class="equal-height-col">
     <div class="card story-list">
-      <UiButtonVariant buttonType="button" class="btn-story-wishlist" classes="wishlist" variant="white" icon="material-symbols:bookmark-add-outline-sharp"/>
+      <UiButtonVariant 
+        buttonType="button" 
+        class="btn-story-wishlist" 
+        classes="wishlist" 
+        variant="white" 
+        :icon="icon"
+        @click="bookmarkStory"
+      />
       <nuxt-link :to="`/story/${story.id}`" class="image">
         <img :src="story.cover_image.url ? getImageUrl(story.cover_image.url) : '/images/404.svg'" class="" alt="...">
       </nuxt-link>
@@ -33,7 +108,7 @@
         <nuxt-link :to="`/story/${story.id}`" class="title">{{ story.title }}</nuxt-link>
         <p class="text">{{ story.content }}</p>
         <h5 class="author">by {{ story.author.name }}</h5>
-        <h5 class="upload_date">{{ formatDate(story.createdAt) }}</h5>
+        <h5 class="upload_date">{{ formatDate(story.updatedAt) }}</h5>
         <span class="badge badge-secondary">{{ story.category.name }}</span>
       </div>
     </div>
@@ -41,7 +116,7 @@
 </template>
 <style lang="scss" scoped>
 .story-list{
-  margin-bottom: 25px;
+  height: 100%;
   position: relative;
 
   .title{

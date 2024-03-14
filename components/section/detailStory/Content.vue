@@ -1,7 +1,8 @@
 <script lang="ts" setup>
   import { getImageUrl } from '~/utils/getImageUrl'
-
-  defineProps({
+  
+  const $toast = useToast()
+  const props = defineProps({
     detailStory: {
       type: Object
     },
@@ -11,6 +12,10 @@
     },
   })
 
+  const detailStory = ref(props.detailStory)
+  const icon = computed(() => {
+    return !bookmarked.value ? "material-symbols:bookmark-add-outline-sharp" : "material-symbols:bookmark"
+  })
   /**
    * Return date from any format to DD-MMMM-YYYY
    * @param {string} dateString the type string date that want to change to spesific format
@@ -26,13 +31,64 @@
 
     return formattedDate
   }
+
+  const bookmarked = ref(false)
+  const bookmarkStory = async () => {
+    const maxBookmarkCapacity = 30
+
+    const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
+
+    if (!detailStory.value)
+      return $toast.error('Story undefined')
+
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.value?.id)
+
+    if(currentBookmark.length >= maxBookmarkCapacity && foundedIndex == -1) {
+      return $toast.error("You have reached the maximum bookmark capacity limit (30)")
+    }
+
+    if (foundedIndex == -1){
+      currentBookmark.push({
+        id: detailStory.value.id,
+        title: detailStory.value.title,
+        author: {
+          name: detailStory.value.author.name,
+          username: detailStory.value.author.username,
+        },
+        category: {
+          name: detailStory.value.category.name
+        },
+        cover_image: {
+          url: detailStory.value.cover_image.url
+        },
+        updatedAt: detailStory.value.updatedAt,
+      })
+      bookmarked.value = true
+      $toast.success('Successfully added story to bookmark')
+    }
+    else{
+      currentBookmark.splice(foundedIndex, 1)
+      bookmarked.value = false
+      $toast.success('Successfully removed story from bookmark')
+    }
+    
+    const newBookmark = JSON.stringify(currentBookmark)
+    
+    localStorage.setItem('bookmark', newBookmark)
+  }
+
+  onMounted(() => {
+    const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.value?.id)
+    bookmarked.value = foundedIndex > -1
+  })
 </script>
 <template lang="">
   <div v-if="!isLoading && detailStory">
     <h1 class="title">{{ detailStory.title }}</h1>
     <div class="upload-date">{{ formatDate(detailStory.createdAt) }}</div>
     <div class="mt-4 relative">
-      <UiButtonVariant buttonType="button" classes="wishlist-detail" variant="white" icon="material-symbols:bookmark-add-outline-sharp"/>
+      <UiButtonVariant buttonType="button" classes="wishlist-detail" variant="white" :icon="icon" @click="bookmarkStory"/>
       <img class="cover-image" :src="getImageUrl(detailStory.cover_image.url)" alt="">
     </div>
     <div class="content" v-html="detailStory.content"></div>

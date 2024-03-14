@@ -1,0 +1,21 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/variables-dark";
+
+// Custom color theme
+$primary: #343434;
+
+$custom-colors: (
+  "primary": $primary,
+);
+  
+$theme-colors: map-merge($theme-colors, $custom-colors);
+// End custom color theme
+
+// Custom pagination color
+$pagination-color: $primary;
+$pagination-hover-color: $primary;
+$pagination-active-bg: $primary;
+$pagination-active-border-color: $primary;
+// End custom pagination color
+@import "../node_modules/bootstrap/scss/bootstrap";
