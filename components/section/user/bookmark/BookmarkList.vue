@@ -19,7 +19,7 @@
     stories.value = paginateBookmark(stories.value.reverse(), pageSize, currentPage)
     
     if (pagination.value.pageCount < currentPage){
-      await navigateTo({ query: {page: currentPage - 1} })
+      await navigateTo({ query: {page: pagination.value.pageCount} })
       loadBookmark()
     }
   }
@@ -27,6 +27,12 @@
   onMounted(() => {
     loadBookmark()
   })
+  watch(
+    () => route.fullPath,
+    () => {
+      loadBookmark()
+    },
+  )
 </script>
 <template lang="">
   <h1 class="title">Bookmark</h1>
@@ -38,7 +44,7 @@
     </div>
   </div>
   <ClientOnly >
-    <UiPagination :pagination="pagination" :key="pagination" @paginate="loadBookmark" />
+    <UiPagination :pagination="pagination" />
   </ClientOnly>
 </template>
 
