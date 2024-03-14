@@ -6,8 +6,8 @@
   })
 
   const { user } = useMyUserStore();
-
   const $toast = useToast()
+  const img = useImage()
   
   const story = ref(props.story)
 
@@ -33,8 +33,6 @@
     return !bookmarked.value ? "material-symbols:bookmark-add-outline-sharp" : "material-symbols:bookmark"
   })
   
-  const emit = defineEmits(['loadBookmark'])
-
   const bookmarkStory = async () => {
     const maxBookmarkCapacity = 30
 
@@ -80,8 +78,6 @@
     const newBookmark = JSON.stringify(currentBookmark)
     
     localStorage.setItem('bookmark', newBookmark)
-
-    emit('loadBookmark')
   }
 
   onMounted(() => {
@@ -102,7 +98,12 @@
         @click="bookmarkStory"
       />
       <nuxt-link :to="`/story/${story.id}`" class="image">
-        <img :src="story.cover_image.url ? getImageUrl(story.cover_image.url) : '/images/404.svg'" class="" alt="...">
+        <nuxt-img 
+          :src="story.cover_image.url ? getImageUrl(story.cover_image.url) : '/images/404.svg'" 
+          :placeholder="img(`/images/404.svg`, { h: 1, f: 'png', blur: 1, q: 50 })"
+          @error="$event.target.src = '/images/404.svg'"
+          class="" 
+          alt="..." />
       </nuxt-link>
       <div class="card-body">
         <nuxt-link :to="`/story/${story.id}`" class="title">{{ story.title }}</nuxt-link>

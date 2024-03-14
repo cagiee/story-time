@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "nuxt-icon",
     "@vee-validate/nuxt",
+    "@nuxt/image"
   ],
   runtimeConfig: {
     public: {

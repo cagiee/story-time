@@ -45,7 +45,7 @@ const handleSubmit = async () => {
   const formDataCreate = new FormData()
   formDataCreate.append('title', title.value)
   formDataCreate.append('category', category.value)
-  formDataCreate.append('content', content.value.html)
+  formDataCreate.append('content', content.value)
 
   const { data: newStory, error: errorCreate }: any = await $api.stories.createStory(formDataCreate)
     

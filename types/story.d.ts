@@ -4,7 +4,7 @@ type IStory = {
   content: string,
   createdAt: string,
   updatedAt: string,
-  coverImage: object,
+  cover_image: any,
   category: object,
   author: object,
 }
