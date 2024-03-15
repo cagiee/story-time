@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-  import InputVariant from "~/components/ui/InputVariant.vue";
-
   const isLoading = ref(true)
   
   const sort = ref("")
@@ -25,7 +23,7 @@
     },
   ])
 
-  const { $api } = useNuxtApp();
+  const { $api } = useNuxtApp()
 
   const stories = ref([])
   const meta = ref()
@@ -67,17 +65,17 @@
       <div class="col-6 col-sm-9">
         <form action="javascript:;" @submit="searchAndSort">
           <div class="d-flex mb-3">
-            <InputVariant v-model="keyword" placeholder="Search Story..."/>
-            <UiButtonVariant buttonType="submit" icon="material-symbols:search" variant="black" />
+            <UiFormInput v-model="keyword" placeholder="Search Story..."/>
+            <UiButton buttonType="submit" icon="material-symbols:search" variant="black" />
           </div>
         </form>
       </div>
       <div class="col-6 col-sm-3">
-        <UiSelectForm v-model="sort" :options="sortOptions" classes="w-" placeholder="Sort" @change="searchAndSort"/>
+        <UiFormSelect v-model="sort" :options="sortOptions" placeholder="Sort" @change="searchAndSort"/>
       </div>
     </div>
     <div class="row equal-height-row row-gap-4">
-      <UiStoryListCard v-for="story in stories" :key="story.id" :story="story" class="col-6 col-sm-4 col-xl-3" />
+      <UiStoryCard v-for="story in stories" :key="story.id" :story="story" class="col-6 col-sm-4 col-xl-3" />
       <div v-if="isLoading" class="placeholder-glow col-6 col-md-6 col-lg-4 col-xl-3" v-for="i in 10" :key="i">
         <div class="placeholder story-card-placeholder"></div>
       </div>
@@ -88,7 +86,7 @@
         </div>
       </div>
       <div v-else-if="meta?.pagination?.page < meta?.pagination?.pageCount" class="col-12" align="center">
-        <UiButtonVariant buttonType="button" content="Load More" variant="white" @click="loadMoreStories" />
+        <UiButton buttonType="button" content="Load More" variant="white" @click="loadMoreStories" />
       </div>
     </div>
   </div>

@@ -37,12 +37,12 @@
     const formattedTime = date.toLocaleString('en-GB', { 
       hour: '2-digit',
       minute: '2-digit',
-    });
+    })
     const formattedDate = date.toLocaleString('en-GB', { 
       day: '2-digit',
       month: 'short',
       year: 'numeric'
-    });
+    })
     const result = `${formattedTime}, ${formattedDate}`
 
     return result
@@ -83,7 +83,7 @@
   <div class="user-page-card">
     <div class="header">
       <h1 class="title">Story List</h1>
-      <UiButtonVariant 
+      <UiButton 
         buttonType="nuxtLink"
         path="/user/story/create" 
         variant="black" 
@@ -106,8 +106,8 @@
             <td>{{ story.title }}</td>
             <td>{{ formatDate(story.updatedAt) }}</td>
             <td class="d-flex gap-2">
-              <UiButtonVariant icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}/edit`" variant="white" classes="btn-sm" content="Edit" />
-              <UiButtonVariant icon="material-symbols:delete" buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" @click="showDeleteModal(story.id, story.cover_image.id)" />
+              <UiButton icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}/edit`" variant="white" classes="btn-sm" content="Edit" />
+              <UiButton icon="material-symbols:delete" buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" @click="showDeleteModal(story.id, story.cover_image.id)" />
             </td>
           </tr>
           <tr v-if="storyList.length == 0">

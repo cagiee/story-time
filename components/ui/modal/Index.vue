@@ -31,8 +31,8 @@
           <slot />
         </div>
         <div class="modal-footer">
-          <UiButtonVariant button-type="button" variant="white" :content="cancelButtonText" data-bs-dismiss="modal" />
-          <UiButtonVariant button-type="button" variant="black" :content="confirmButtonText" @click="$emit('confirmButtonClick')" :is-loading="isLoading" />
+          <UiButton button-type="button" variant="white" :content="cancelButtonText" data-bs-dismiss="modal" />
+          <UiButton button-type="button" variant="black" :content="confirmButtonText" @click="$emit('confirmButtonClick')" :is-loading="isLoading" />
         </div>
       </div>
     </div>

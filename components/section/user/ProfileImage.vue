@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   // @ts-ignore
-  import VueCropper from 'vue-cropperjs';
+  import VueCropper from 'vue-cropperjs'
 
   const props = defineProps()
 
@@ -24,7 +24,7 @@
   if (file.size > 2000000)
     return $toast.error('Maximum file size is 2MB')
 
-  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png']
 
   if (allowedExtension.indexOf(file.type) == -1)
     return $toast.error('Only .JPEG .JPG .PNG are allowed')
@@ -34,7 +34,7 @@
       reader.onload = (e) => {
         setTimeout(() => {
           cropperImageUrl.value = e?.target?.result
-        }, 500);
+        }, 500)
         
         $bModal.show('cropperModal')
       }
@@ -95,7 +95,7 @@
       :class="isLoading ? 'placeholder' : ''" 
       alt="Profile Image"
       />
-    <UiButtonVariant buttonType="button" content="Change Avatar" variant="white" classes="w-full mt-4" @click="inputProfileImage.click()"/>
+    <UiButton buttonType="button" content="Change Avatar" variant="white" classes="w-full mt-4" @click="inputProfileImage.click()"/>
     <input type="file" class="d-none" @change="handleProfileImageChange" ref="inputProfileImage" accept=".png, .jpg, .jpeg">
   </div>
   <UiModal id="cropperModal" title="Adjust Profile" @confirm-button-click="uploadCroppedProfileImage" :is-loading="isLoading">

@@ -1,10 +1,10 @@
-import { $Fetch, FetchOptions } from 'ofetch';
+import { $Fetch, FetchOptions } from 'ofetch'
 
 class FetchFactory<T> {
-  private $fetch: $Fetch;
+  private $fetch: $Fetch
 
   constructor(fetcher: $Fetch) {
-    this.$fetch = fetcher;
+    this.$fetch = fetcher
     const token = useCookie('token')
   }
 
@@ -40,4 +40,4 @@ class FetchFactory<T> {
   }
 }
 
-export default FetchFactory;
+export default FetchFactory

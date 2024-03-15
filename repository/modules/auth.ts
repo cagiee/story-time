@@ -1,7 +1,7 @@
-import { FetchOptions } from 'ofetch';
-import { AsyncDataOptions } from '#app';
+import { FetchOptions } from 'ofetch'
+import { AsyncDataOptions } from '#app'
 
-import FetchFactory from '../factory';
+import FetchFactory from '../factory'
 
 type IUser = {
   "id": number,

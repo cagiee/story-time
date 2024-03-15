@@ -66,14 +66,14 @@
     </table>
     <div v-else>
       <Form class="d-flex flex-column gap-3" @submit="handleUpdateProfile">
-        <UiInputVariant
+        <UiFormInput
           inputType="text"
           v-model="name"
           name="name"
           placeholder="Enter your name" 
           label="Name" 
           :rules="{required: true}" />
-        <UiInputVariant 
+        <UiFormInput 
           inputType="email" 
           v-model="email"
           name="Email" 
@@ -81,16 +81,15 @@
           label="Email" 
           :disabled="true" 
           />
-        <UiInputVariant 
-          inputType="textarea" 
+        <UiFormTextarea 
           v-model="biodata"
           name="aboutMe" 
           placeholder="Enter about me"
           label="About me" 
           />
         <div class="d-flex justify-content-end gap-2">
-          <UiButtonVariant buttonType="button" content="Cancel" variant="white" @click="hideForm" />
-          <UiButtonVariant buttonType="submit" content="Save" variant="black" :isLoading="isLoading" />
+          <UiButton buttonType="button" content="Cancel" variant="white" @click="hideForm" />
+          <UiButton buttonType="submit" content="Save" variant="black" :isLoading="isLoading" />
         </div>
       </Form>
     </div>

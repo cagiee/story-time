@@ -18,8 +18,8 @@
     if(error.value){
       const { error: {message} }: any = error.value.data
 
-      const $toast = useToast();
-      let instance = $toast.error(message);
+      const $toast = useToast()
+      let instance = $toast.error(message)
     } else {
       const token = useCookie('token')
       
@@ -44,20 +44,20 @@
   <div class="shadow-sm mx-auto col-12 col-lg-5">
     <Form class="login-form" @submit="handleLogin">
       <h3>Login</h3>
-      <UiInputVariant
+      <UiFormInput
         v-model="identifier"
         name="identifier"
         placeholder="Enter username or email" 
         label="Username or Email" 
         :rules="{required: true}" />
-      <UiInputVariant
+      <UiFormInput
         v-model="password"
         name="password"
         inputType="password"
         placeholder="Enter password" 
         label="Password" 
         :rules="{required: true}" />
-      <UiButtonVariant buttonType="submit" classes="col-12" content="Login" variant="black" :isLoading="isLoading"/>
+      <UiButton buttonType="submit" classes="col-12" content="Login" variant="black" :isLoading="isLoading"/>
       <p>Don't have an account yet ? <nuxt-link to="/register">Register</nuxt-link></p>
     </Form>
   </div>

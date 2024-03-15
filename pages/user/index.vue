@@ -6,7 +6,7 @@
 </script>
 <template lang="">
   <div class="d-flex flex-column gap-4">
-    <SectionUserMyProfile />
-    <SectionUserEditPassword />
+    <SectionUserProfile />
+    <SectionUserPassword />
   </div>
 </template>

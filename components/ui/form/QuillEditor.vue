@@ -10,13 +10,6 @@
 
   const quill = ref()
 
-  // # Value setting for emit to parent element
-  // const emit = defineEmits(['update:modelValue']);
-  // const updateValue = () => {
-  //   emit('update:modelValue', {text: quill.value.getText(), html: quill.value.getHTML()});
-  // };
-  // # End setting for emit to parent element
-
   const modelValue = defineModel('modelValue')
   
   const initQuill = () => {

@@ -13,15 +13,15 @@
   const $toast = useToast()
   
   // # Password Confirmation
-  const elementKey = ref(0);
+  const elementKey = ref(0)
   const confirmationRule = ref({
     required: true,
     mustMatchWith: ''
-  });
+  })
   const updateConfirmationRules = () => {
-    confirmationRule.value.mustMatchWith = password.value;
+    confirmationRule.value.mustMatchWith = password.value
     elementKey.value++
-  };
+  }
   // # END Password Confirmation
 
   
@@ -51,26 +51,26 @@
   <div class="shadow-sm mx-auto col-12 col-lg-5">
     <Form class="register-form" @submit="handleRegister">
       <h3>Register</h3>
-      <UiInputVariant
+      <UiFormInput
         v-model="name"
         name="name"
         placeholder="Enter name" 
         label="Name" 
         :rules="{required: true}" />
-      <UiInputVariant
+      <UiFormInput
         v-model="username"
         name="username"
         placeholder="Enter username" 
         label="Username" 
         :rules="{required: true, min: 3}" />
-      <UiInputVariant
+      <UiFormInput
         v-model="email"
         inputType="email"
         name="email"
         placeholder="Enter email" 
         label="Email" 
         :rules="{required: true, isEmail: true}" />
-      <UiInputVariant
+      <UiFormInput
         v-model="password"
         name="password"
         inputType="password"
@@ -78,7 +78,7 @@
         label="Password" 
         :rules="{required: true, min: 6}" 
         @input="updateConfirmationRules" />
-      <UiInputVariant
+      <UiFormInput
         v-model="passwordConfirmation"
         name="passwordConfirmation"
         inputType="password" 
@@ -86,7 +86,7 @@
         label="Password Confirmation" 
         :rules="confirmationRule" 
         :key="elementKey" />
-      <UiButtonVariant buttonType="submit" classes="col-12" content="Register" variant="black" :isLoading="isLoading"/>
+      <UiButton buttonType="submit" classes="col-12" content="Register" variant="black" :isLoading="isLoading"/>
       <p>Already have account ? <nuxt-link to="/login">Login</nuxt-link></p>
     </Form>
   </div>

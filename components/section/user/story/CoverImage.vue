@@ -12,7 +12,7 @@ const handleCoverImageChange = (event: any) => {
   if (file.size > 2000000)
     return $toast.error('Maximum file size is 2MB')
 
-  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png']
 
   if (allowedExtension.indexOf(file.type) == -1)
     return $toast.error('Only .JPEG .JPG .PNG are allowed')
@@ -39,7 +39,7 @@ if (coverImage.value) {
   <div class="cover-image">
     <label class="cover-image-title mb-2">Cover Image</label>
     <div class="story-cover-img-wrapper">
-      <UiButtonVariant v-if="coverImagePreview" buttonType="button" variant="danger" classes="rounded-full" class="btn-clear-cover-image" icon="material-symbols:close" @Click="clearCoverImage" />
+      <UiButton v-if="coverImagePreview" buttonType="button" variant="danger" classes="rounded-full" class="btn-clear-cover-image" icon="material-symbols:close" @Click="clearCoverImage" />
       <div class="story-cover-img" :class="!coverImagePreview ? 'dashed-border' : ''" @click="inputCoverImage.click()">
         <div class="" align="center" v-if="!coverImagePreview">
           <Icon name="material-symbols:add-circle-rounded" class="col-12" />

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-  import { getImageUrl } from '~/utils/getImageUrl';
+  import { getImageUrl } from '~/utils/getImageUrl'
 
   const props = defineProps({
     story: Object
   })
 
-  const { user } = useMyUserStore();
+  const { user } = useMyUserStore()
   const $toast = useToast()
   const img = useImage()
   
@@ -22,7 +22,7 @@
       day: '2-digit', 
       month: 'short', 
       year: '2-digit' 
-    });
+    })
 
     return formattedDate
   }
@@ -93,7 +93,7 @@
 <template lang="">
   <div class="equal-height-col">
     <div class="card story-list">
-      <UiButtonVariant 
+      <UiButton 
         buttonType="button" 
         class="btn-story-wishlist" 
         classes="wishlist" 

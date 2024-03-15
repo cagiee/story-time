@@ -9,15 +9,15 @@
   const confirmPassword = ref()
 
   // # Password Confirmation
-  const elementKey = ref(0);
+  const elementKey = ref(0)
   const confirmationRule = ref({
     required: true,
     mustMatchWith: ''
-  });
+  })
   const updateConfirmationRules = () => {
-    confirmationRule.value.mustMatchWith = newPassword.value;
+    confirmationRule.value.mustMatchWith = newPassword.value
     elementKey.value++
-  };
+  }
 
   const hideForm = () => {
     currentPassword.value = ''
@@ -32,7 +32,7 @@
   <div class="user-page-card">
     <div class="header">
       <h1 class="title">Password</h1>
-      <UiButtonVariant 
+      <UiButton 
         v-if="!showForm"
         buttonType="button" 
         variant="white" 
@@ -43,14 +43,14 @@
     </div>
     <div v-if="showForm">
       <Form class="d-flex flex-column gap-4">
-        <UiInputVariant
+        <UiFormInput
           v-model="currentPassword"
           inputType="password" 
           name="currentPassword" 
           label="Old Password" 
           placeholder="Enter old password"
           :rules="{required: true}" />
-        <UiInputVariant
+        <UiFormInput
           inputType="password" 
           name="newPassword" 
           label="New Password"
@@ -58,7 +58,7 @@
           v-model="newPassword"
           :rules="{required: true, min: 6}"
           @input="updateConfirmationRules" />
-        <UiInputVariant
+        <UiFormInput
           inputType="password" 
           name="confirmPassword" 
           label="Confirmation Password" 
@@ -67,8 +67,8 @@
           :rules="confirmationRule" 
           :key="elementKey" />
         <div class="d-flex justify-content-end gap-2">
-          <UiButtonVariant buttonType="button" content="Cancel" variant="white" @click="hideForm" />
-          <UiButtonVariant buttonType="button" content="Save" variant="black" />
+          <UiButton buttonType="button" content="Cancel" variant="white" @click="hideForm" />
+          <UiButton buttonType="button" content="Save" variant="black" />
         </div>
       </Form>
     </div>

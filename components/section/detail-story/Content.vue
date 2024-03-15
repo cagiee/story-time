@@ -27,7 +27,7 @@
       day: '2-digit', 
       month: 'long', 
       year: 'numeric' 
-    });
+    })
 
     return formattedDate
   }
@@ -88,7 +88,7 @@
     <h1 class="title">{{ detailStory.title }}</h1>
     <div class="upload-date">{{ formatDate(detailStory.createdAt) }}</div>
     <div class="mt-4 relative">
-      <UiButtonVariant buttonType="button" classes="wishlist-detail" variant="white" :icon="icon" @click="bookmarkStory"/>
+      <UiButton buttonType="button" classes="wishlist-detail" variant="white" :icon="icon" @click="bookmarkStory"/>
       <img class="cover-image" :src="getImageUrl(detailStory.cover_image.url)" alt="">
     </div>
     <div class="content" v-html="detailStory.content"></div>

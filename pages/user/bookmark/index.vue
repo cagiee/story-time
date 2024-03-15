@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <SectionUserBookmarkList />
+    <SectionUserBookmark />
   </div>
 </template>
 

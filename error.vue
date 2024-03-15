@@ -17,7 +17,7 @@ const handleError = () => clearError({ redirect: '/' })
       <img v-if="error?.statusCode == 404" src="/images/404.svg" width="300" alt="">
       <p v-else class="error-status-code">{{ error?.statusCode }}</p>
       <p class="error-message">{{ error?.message }}</p>
-      <UiButtonVariant button-type="nuxtLink" path="/" content="Back to home" variant="black" />
+      <UiButton button-type="nuxtLink" path="/" content="Back to home" variant="black" />
     </div>
   </main>
   <LayoutsDefaultFooter />

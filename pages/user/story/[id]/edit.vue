@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <SectionUserStoryEditStory />
+    <SectionUserStoryForm form="edit" />
   </div>
 </template>
 

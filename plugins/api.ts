@@ -1,13 +1,13 @@
 // [File]: plugins/api.ts
 
 // 3rd's
-import { $fetch, FetchOptions } from 'ofetch';
+import { $fetch, FetchOptions } from 'ofetch'
 
 // locals
-import StoriesModule from '~/repository/modules/story';
-import AuthModule from '~/repository/modules/auth';
-import UserModule from '~/repository/modules/user';
-import CategoryModule from '~/repository/modules/category';
+import StoriesModule from '~/repository/modules/story'
+import AuthModule from '~/repository/modules/auth'
+import UserModule from '~/repository/modules/user'
+import CategoryModule from '~/repository/modules/category'
 
 interface IApiInstance {
   stories: StoriesModule,
@@ -17,14 +17,14 @@ interface IApiInstance {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const config = useRuntimeConfig();
+  const config = useRuntimeConfig()
 
   const fetchOptions: FetchOptions = {
     baseURL: config.public.apiBaseUrl
-  };
+  }
 
   // Create a new instance of $fecther with custom option
-  const apiFecther = $fetch.create(fetchOptions);
+  const apiFecther = $fetch.create(fetchOptions)
 
   // An object containing all repositories we need to expose
   const modules: IApiInstance = {
@@ -32,11 +32,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     auth: new AuthModule(apiFecther),
     user: new UserModule(apiFecther),
     category: new CategoryModule(apiFecther),
-  };
+  }
 
   return {
     provide: {
       api: modules
     }
-  };
-});
+  }
+})

@@ -6,7 +6,7 @@
   <div class="user-page-card">
     <div class="header">
       <h1 class="title">My Profile</h1>
-      <UiButtonVariant 
+      <UiButton 
         v-if="!showForm"
         buttonType="button" 
         variant="white" 
@@ -20,7 +20,7 @@
         <SectionUserProfileImage />
       </div>
       <div class="col-lg-9">
-        <SectionUserEditProfile v-model="showForm"/>
+        <SectionUserProfileForm v-model="showForm"/>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <SectionUserStoryList />
+    <SectionUserStory />
   </div>
 </template>
 

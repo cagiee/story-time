@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <SectionUserStoryCreateStory />
+    <SectionUserStoryForm form="create" />
   </div>
 </template>
 

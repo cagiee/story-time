@@ -20,15 +20,15 @@
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav" v-if="!user.user" ref="navbar">
           <li class="nav-items">
-            <UiButtonVariant buttonType="nuxtLink" path="/register" content="Register" variant="white"/>
+            <UiButton buttonType="nuxtLink" path="/register" content="Register" variant="white"/>
           </li>
           <li class="nav-items">
-            <UiButtonVariant buttonType="nuxtLink" path="/login" content="Login" variant="black"/>
+            <UiButton buttonType="nuxtLink" path="/login" content="Login" variant="black"/>
           </li>
         </ul>
         <ul class="navbar-nav" v-else>
           <li class="nav-items">
-            <UiButtonVariant buttonType="nuxtLink" path="/user" icon="material-symbols:account-circle" :content="user.user.name" variant="black"/>
+            <UiButton buttonType="nuxtLink" path="/user" icon="material-symbols:account-circle" :content="user.user.name" variant="black"/>
           </li>
         </ul>
       </div>

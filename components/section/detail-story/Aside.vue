@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useRoute } from "vue-router"
-  import { getImageUrl } from '~/utils/getImageUrl';
+  import { getImageUrl } from '~/utils/getImageUrl'
 
   defineProps({
     detailStory: {
