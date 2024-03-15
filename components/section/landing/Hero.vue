@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-
 </script>
 <template lang="">
   <div class="hero">
-    <div class="title">
-      Welcome To <img src="/images/logo.svg" alt=""  height="60">
+    <div class="title-wrapper">
+      <h1 class="title">
+        Welcome to 
+      </h1>
+      <img src="/images/logo.svg" alt=""  height="50">
+      <!-- <span class="logo-text" data-content="storytime">storytime</span> -->
     </div>
     <div class="subtitle">
       <h1>The world's most-loved social storytelling platform.</h1>
@@ -18,13 +21,21 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
+    // background-color: red;
+
+    .title-wrapper{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin: 1rem auto;
+      font-size: 52px;
+    }
 
     .title{
-      font-size: 52px;
       line-height: 1;
       font-weight: 500;
-      margin-bottom: 10px;
     }
 
     .subtitle{
@@ -32,8 +43,28 @@
 
       h1, p{
         font-weight: normal;
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
+    }
+  }
+  .logo-text{
+    font-size: 42px;
+    font-weight: 600;
+    position: relative;
+    color: transparent;
+    
+    &::before,
+    &::after{
+      content: attr(data-content);
+      color: #000;
+      position: absolute;
+      left: 0;
+    }
+    &::after{
+      color: #ffffff;
+      background-color: #000;
+      width: 1.5ch;
+      overflow: hidden;
     }
   }
 </style>

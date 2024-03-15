@@ -19,8 +19,17 @@
    * @param {Event} e The change event object.
    */
    const handleProfileImageChange = (e: any) => {
-    const el = e.target
-    if (el.files[0].size < 2000000) {
+    const file = e.target.files[0]
+    
+  if (file.size > 2000000)
+    return $toast.error('Maximum file size is 2MB')
+
+  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+
+  if (allowedExtension.indexOf(file.type) == -1)
+    return $toast.error('Only .JPEG .JPG .PNG are allowed')
+
+    if (file.size < 2000000) {
       const reader = new FileReader()  
       reader.onload = (e) => {
         setTimeout(() => {
@@ -29,7 +38,7 @@
         
         $bModal.show('cropperModal')
       }
-      reader.readAsDataURL(el.files[0])
+      reader.readAsDataURL(file)
     } else {
       $toast.error('Maximum file size is 2MB')
     }
@@ -87,7 +96,7 @@
       alt="Profile Image"
       />
     <UiButtonVariant buttonType="button" content="Change Avatar" variant="white" classes="w-full mt-4" @click="inputProfileImage.click()"/>
-    <input type="file" class="d-none" @change="handleProfileImageChange" ref="inputProfileImage">
+    <input type="file" class="d-none" @change="handleProfileImageChange" ref="inputProfileImage" accept=".png, .jpg, .jpeg">
   </div>
   <UiModal id="cropperModal" title="Adjust Profile" @confirm-button-click="uploadCroppedProfileImage" :is-loading="isLoading">
     <div class="img-cropper" v-if="cropperImageUrl">

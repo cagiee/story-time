@@ -32,6 +32,8 @@
   const icon = computed(() => {
     return !bookmarked.value ? "material-symbols:bookmark-add-outline-sharp" : "material-symbols:bookmark"
   })
+
+  const emit = defineEmits(['loadBookmark'])
   
   const bookmarkStory = async () => {
     const maxBookmarkCapacity = 30
@@ -78,6 +80,8 @@
     const newBookmark = JSON.stringify(currentBookmark)
     
     localStorage.setItem('bookmark', newBookmark)
+
+    emit('loadBookmark')
   }
 
   onMounted(() => {

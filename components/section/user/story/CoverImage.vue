@@ -9,17 +9,21 @@ const $toast = useToast()
 const handleCoverImageChange = (event: any) => {
   const file = event.target.files[0]
 
-  if (file.size < 2000000) {
-    const reader = new FileReader()
-    reader.onload = (e: any) => {
-      coverImagePreview.value = e.target.result
-      emit('update:modelValue', file)
-    }
-    reader.readAsDataURL(file)
+  if (file.size > 2000000)
+    return $toast.error('Maximum file size is 2MB')
 
-  } else {
-    $toast.error('Maximum file size is 2MB')
+  const allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+
+  if (allowedExtension.indexOf(file.type) == -1)
+    return $toast.error('Only .JPEG .JPG .PNG are allowed')
+
+  const reader = new FileReader()
+  reader.onload = (e: any) => {
+    coverImagePreview.value = e.target.result
+    emit('update:modelValue', file)
   }
+  reader.readAsDataURL(file)
+
 }
 const clearCoverImage = () => {  
   coverImagePreview.value = inputCoverImage.value.value = null
@@ -43,7 +47,7 @@ if (coverImage.value) {
         </div>
         <img v-else :src="coverImagePreview" alt="" class="cover-image-preview">
       </div>
-      <input type="file" name="" id="" class="d-none" @change="handleCoverImageChange" ref="inputCoverImage"/>
+      <input type="file" name="" id="" class="d-none" @change="handleCoverImageChange" ref="inputCoverImage" accept=".png, .jpg, .jpeg"/>
     </div>
   </div>
 </template>

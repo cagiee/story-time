@@ -1,11 +1,17 @@
 <script lang="ts" setup>
   const user: any = useMyUserStore()
+
+  const scrollTop = () => {
+    setTimeout(() => {
+      window.scrollTo(0,0)
+    }, 250);
+  }
 </script>
 
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <nuxtLink class="navbar-brand" to="/">
+      <nuxtLink class="navbar-brand" to="/" @click.prevent="scrollTop">
         <img src="/images/logo.svg" alt="">
       </nuxtLink>
       <button class="navbar-toggler" ref="navbarToggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
