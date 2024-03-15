@@ -45,8 +45,10 @@
     :disabled="isLoading"
     :class="`btn btn-${variant} ${classes}`">
     <Icon v-if="icon && !isLoading" :name="icon" class="icon"/>
-    <div v-else-if="isLoading" class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+    <div v-else-if="isLoading" class="spinner-wrapper">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
     <span class="w-full" v-if="content">
       {{ content }}
@@ -62,8 +64,10 @@
       :disabled="isLoading"
       :class="`btn btn-${variant} ${classes}`">
       <Icon v-if="icon && !isLoading" :name="icon" class="icon"/>
-      <div v-else-if="isLoading" class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+      <div v-else-if="isLoading" class="spinner-wrapper">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
       <span class="w-full" v-if="content">
         {{ content }}
@@ -138,11 +142,18 @@
       align-items: center;
       margin: 0 .25rem;
     }
+    
+    .spinner-wrapper{
+      width: 18px;
+      height: 18px;
+      margin-right: .75rem;
+      display: flex;
+      align-items: center;
+    }
 
     .spinner-border{
       width: 18px;
       height: 18px;
-      margin-right: .75rem;
     }
 
     &.sidebar-button {

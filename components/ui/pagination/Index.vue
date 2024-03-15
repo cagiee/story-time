@@ -33,7 +33,7 @@
 </script>
 
 <template>
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" v-if="pagination.pageCount > 1">
     <ul class="pagination mt-4">
       <li class="page-item" :class="currentPage == 1 ? 'disabled' : ''">
         <span @click="paginate(prev)" class="page-link" aria-label="Previous">

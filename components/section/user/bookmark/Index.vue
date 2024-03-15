@@ -17,11 +17,6 @@
     pagination.value.pageCount = Math.ceil(stories.value.length / pageSize)
 
     stories.value = paginateBookmark(stories.value.reverse(), pageSize, currentPage)
-    
-    if (pagination.value.pageCount < currentPage){
-      await navigateTo({ query: {page: pagination.value.pageCount} })
-      loadBookmark()
-    }
   }
 
   onMounted(() => {
@@ -44,7 +39,7 @@
     </div>
   </div>
   <ClientOnly >
-    <UiPagination :pagination="pagination" />
+    <UiPagination :pagination="pagination" v-if="pagination.pageCount > 1" />
   </ClientOnly>
 </template>
 

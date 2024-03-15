@@ -93,11 +93,9 @@ const handleSubmit = async () => {
 
 const createStory = async () => {
   return await $api.stories.createStory({
-    data: {
-      title: title.value,
-      category: category.value,
-      content: content.value,
-    }
+    title: title.value,
+    category: category.value,
+    content: content.value,
   })
 }
 

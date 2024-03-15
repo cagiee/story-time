@@ -16,7 +16,12 @@
   <div v-if="!isLoading && detailStory" class="aside shadow-sm">
     <h6 class="title">Author</h6>
     <div class="info">
-      <img class="image" :src="getImageUrl(detailStory?.author.profile_picture.url)" alt="">
+      <nuxt-img 
+        class="image" 
+        :src="detailStory.author.profile_picture?.url ? getImageUrl(detailStory.author.profile_picture?.url) : 'https://via.placeholder.com/150'" 
+        @error="$event.target.src = 'https://via.placeholder.com/150'"
+        alt="" 
+        />
       <h5 class="name">{{ detailStory.author.name }}</h5>
       <h5 class="biodata">{{ detailStory.author.biodata }}</h5>
     </div>

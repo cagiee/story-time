@@ -132,7 +132,7 @@
         </tbody>
       </table>
       <ClientOnly >
-        <UiPagination :pagination="pagination" />
+        <UiPagination :pagination="pagination" v-if="pagination.pageCount > 1" />
       </ClientOnly>
     </div>
   </div>
