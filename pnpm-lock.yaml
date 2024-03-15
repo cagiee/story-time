@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@nuxt/devtools':
+    specifier: ^1.0.8
+    version: 1.0.8(nuxt@3.10.3)(vite@5.1.4)
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(vue@3.4.21)
