@@ -18,4 +18,14 @@ $pagination-hover-color: $primary;
 $pagination-active-bg: $primary;
 $pagination-active-border-color: $primary;
 // End custom pagination color
+
+// Custom offcanvas
+$offcanvas-horizontal-width: 100%;
+// End custom offcanvas
+
+// Custom Navigation
+$navbar-toggler-padding-y: 0;
+$navbar-toggler-padding-x: 0;
+// End custom Navigation
+
 @import "../node_modules/bootstrap/scss/bootstrap";

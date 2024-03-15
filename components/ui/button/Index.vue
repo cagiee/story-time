@@ -38,7 +38,6 @@
 </script>
 
 <template>
-
   <button 
     v-if="buttonType=='button' || buttonType=='submit'" 
     :type="buttonType == 'submit' ? 'submit' : 'button'" 
@@ -194,6 +193,11 @@
       border-radius: 50%;
       padding: 0;
       aspect-ratio: 1 / 1;
+    }
+
+    &.aspect-1-1{
+      aspect-ratio: 1 / 1;
+      padding: 0;
     }
   }
 </style>

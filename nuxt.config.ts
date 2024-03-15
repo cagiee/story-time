@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     "@vee-validate/nuxt",
     "@nuxt/image",
     "@nuxt/devtools",
+    "@vueuse/nuxt",
   ],
   runtimeConfig: {
     public: {

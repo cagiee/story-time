@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="row equal-height-row row-gap-4">
-      <UiStoryCard v-for="story in stories" :key="story.id" :story="story" class="col-6 col-sm-4 col-xl-3" />
+      <UiStoryCard v-for="story in stories" :key="story.id" :story="story" class="col-6 col-md-4 col-xl-3" />
       <div v-if="isLoading" class="placeholder-glow col-6 col-md-6 col-lg-4 col-xl-3" v-for="i in 10" :key="i">
         <div class="placeholder story-card-placeholder"></div>
       </div>

@@ -6,11 +6,11 @@
       <h1 class="title">
         Welcome to 
       </h1>
-      <img src="/images/logo.svg" alt=""  height="50">
-      <!-- <span class="logo-text" data-content="storytime">storytime</span> -->
+      <!-- <img src="/images/logo.svg" alt=""  height="50"> -->
+      <span class="logo-text" data-content="storytime">storytime</span>
     </div>
     <div class="subtitle">
-      <h1>The world's most-loved social storytelling platform.</h1>
+      <p>The world's most-loved social storytelling platform.</p>
       <p>Story time connects a global community of 90 million readers and writers through the power of story.</p>
     </div>
   </div>
@@ -36,19 +36,24 @@
     .title{
       line-height: 1;
       font-weight: 500;
+      margin-bottom: 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
     }
 
     .subtitle{
       text-align: center;
+      margin: 0;
 
-      h1, p{
+      p{
         font-weight: normal;
-        font-size: 2rem;
+        font-size: clamp(.9rem, 2.5vw, 2rem);
+        margin: 0;
       }
     }
   }
   .logo-text{
-    font-size: 42px;
+    line-height: 1.5ch;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
     font-weight: 600;
     position: relative;
     color: transparent;
