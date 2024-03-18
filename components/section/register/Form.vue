@@ -3,9 +3,9 @@
 
   const { $api } = useNuxtApp()
   
-  const name = ref('Cagie')
-  const username = ref('cagie')
-  const email = ref('cagieeeee@gmail.com')
+  const name = ref('')
+  const username = ref('')
+  const email = ref('')
   const password = ref('')
   const passwordConfirmation = ref('')
 

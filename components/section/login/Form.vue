@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-  const identifier = ref('testing9')
-  const password = ref('12312')
+  const identifier = ref('')
+  const password = ref('')
 
   const isLoading = ref(false)
   
