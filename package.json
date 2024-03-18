@@ -16,6 +16,7 @@
     "@vee-validate/nuxt": "^4.12.5",
     "@vee-validate/rules": "^4.12.5",
     "@vueup/vue-quill": "^1.2.0",
+    "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "nuxt": "^3.10.3",
     "nuxt-icon": "^0.6.8",

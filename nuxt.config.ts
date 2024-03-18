@@ -1,12 +1,19 @@
 // nuxt.config.js/ts
 export default defineNuxtConfig({
   css: [
-    // "bootstrap/scss/bootstrap.scss",
-    "~/assets/css/bootstrap/bootstrap.scss",
-    "~/assets/css/main.scss",
+    "@/assets/scss/main.scss",
     "cropperjs/dist/cropper.css",
     "vue-toast-notification/dist/theme-sugar.css"
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@/assets/scss/config/variable.scss" as *;'
+        }
+      }
+    }
+  },
   app: {
     head: {
       title: 'Story Time - Cagie',
@@ -36,4 +43,5 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['types/**/*.ts', 'types/*.ts'],
   },
+  
 })

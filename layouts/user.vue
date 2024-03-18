@@ -8,7 +8,7 @@
     <main>
       <div class="container">
         <div class="row">
-          <div class="col-lg-3">
+          <div class="col-lg-3 d-none d-lg-block">
             <LayoutsUserSidebar />
           </div>
           <div class="col-lg-9">
@@ -23,7 +23,7 @@
 
 <style lang="scss" scoped>
 .container{
-  margin-top: 7.5rem;
+  margin-top: 5.5rem;
   min-height: calc(100vh - 78px);
 }
 </style>

@@ -95,10 +95,10 @@
       :class="isLoading ? 'placeholder' : ''" 
       alt="Profile Image"
       />
-    <UiButton buttonType="button" content="Change Avatar" variant="white" classes="w-full mt-4" @click="inputProfileImage.click()"/>
+    <UiButton buttonType="button" content="Change Avatar" variant="white" classes="w-full mt-4 btn-sm" @click="inputProfileImage.click()"/>
     <input type="file" class="d-none" @change="handleProfileImageChange" ref="inputProfileImage" accept=".png, .jpg, .jpeg">
   </div>
-  <UiModal id="cropperModal" title="Adjust Profile" @confirm-button-click="uploadCroppedProfileImage" :is-loading="isLoading">
+  <UiModal id="cropperModal" title="Adjust Profile" @confirm-button-click="uploadCroppedProfileImage" classes="modal-dialog-centered" :is-loading="isLoading">
     <div class="img-cropper" v-if="cropperImageUrl">
       <client-only>
         <div class="placeholder-glow relative">

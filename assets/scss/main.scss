@@ -1,4 +1,5 @@
-// @import url(./bootstrap/theme.scss);
+@import "./config/bootstrap.scss";
+@import "./config/variable.scss";
 
 a {
   text-decoration: none;
@@ -18,7 +19,7 @@ a {
 .user-page-card{
   border: 0;
   box-shadow: 0 0 17px rgba($color: #000000, $alpha: .1);
-  padding: 2rem;
+  padding: 1rem;
 
   .title{
     font-size: 1.5em;
@@ -32,6 +33,12 @@ a {
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
+  }
+
+  @include media-breakpoint-up(md) {
+    &{
+      padding: 2rem;
+    }
   }
 }
 .cursor-pointer{

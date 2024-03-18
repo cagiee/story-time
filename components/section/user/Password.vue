@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-  const { $api } = useNuxtApp()
+  import { createReusableTemplate } from '@vueuse/core'
 
+  const { $api } = useNuxtApp()
   const $toast = useToast()
 
   const showForm = ref(false)
@@ -25,6 +26,8 @@
     confirmPassword.value = ''
     showForm.value = false
   }
+  
+  const [DefineChangePasswordButton, ReuseChangePasswordButton] = createReusableTemplate()
   // # END Password Confirmation
 </script>
 
@@ -32,14 +35,18 @@
   <div class="user-page-card">
     <div class="header">
       <h1 class="title">Password</h1>
-      <UiButton 
-        v-if="!showForm"
-        buttonType="button" 
-        variant="white" 
-        content="Edit Password" 
-        icon="material-symbols:edit-square-outline" 
-        @click="showForm = true"
-        />
+      <DefineChangePasswordButton v-slot="{ classes }">
+        <UiButton 
+          v-if="!showForm"
+          buttonType="button" 
+          variant="white" 
+          :classes="classes"
+          content="Change Password" 
+          icon="material-symbols:edit-square-outline" 
+          @click="showForm = true"
+          />
+      </DefineChangePasswordButton>
+      <ReuseChangePasswordButton classes="d-none d-sm-flex btn-sm" />
     </div>
     <div v-if="showForm">
       <Form class="d-flex flex-column gap-4">
@@ -72,6 +79,7 @@
         </div>
       </Form>
     </div>
+    <ReuseChangePasswordButton v-else classes="d-flex d-sm-none w-full" />
   </div>
 </template>
 

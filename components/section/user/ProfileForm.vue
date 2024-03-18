@@ -103,6 +103,7 @@
       font-weight: 500;
     }
     th, td{
+      padding-right: 8px;
       padding-bottom: 20px;
     }
   }

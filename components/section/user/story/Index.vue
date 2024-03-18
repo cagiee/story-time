@@ -92,7 +92,7 @@
         classes="btn-sm"
         />
     </div>
-    <div >
+    <div class="table-wrapper">
       <table class="table mt-4">
         <thead>
           <tr>
@@ -105,7 +105,7 @@
           <tr v-for="(story, i) in storyList" :key="i">
             <td>{{ story.title }}</td>
             <td>{{ formatDate(story.updatedAt) }}</td>
-            <td class="d-flex gap-2">
+            <td class="d-md-flex gap-2">
               <UiButton icon="material-symbols:edit" buttonType="nuxtLink" :path="`/user/story/${story.id}/edit`" variant="white" classes="btn-sm" content="Edit" />
               <UiButton icon="material-symbols:delete" buttonType="button" variant="outline-danger" classes="btn-sm" content="Delete" @click="showDeleteModal(story.id, story.cover_image.id)" />
             </td>
@@ -142,6 +142,10 @@
 </template>
 
 <style lang="scss" scoped>
+  .table-wrapper{
+    overflow: auto; 
+    width: 100%;
+  }
   th{
     font-weight: 600;
     padding-bottom: 10px;

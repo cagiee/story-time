@@ -12,5 +12,6 @@
     text-align: center;
     padding: 25px 0;
     border-top: 1px solid #eee;
+    font-size: clamp(.8rem, 2vw, 1rem);
   }
 </style>

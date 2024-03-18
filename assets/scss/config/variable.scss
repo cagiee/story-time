@@ -1,10 +1,10 @@
 @import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/variables-dark";
+
 
 // Custom color theme
 $primary: #343434;
-
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/variables-dark";
 $custom-colors: (
   "primary": $primary,
 );
@@ -27,5 +27,7 @@ $offcanvas-horizontal-width: 100%;
 $navbar-toggler-padding-y: 0;
 $navbar-toggler-padding-x: 0;
 // End custom Navigation
-
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";

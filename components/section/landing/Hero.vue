@@ -36,18 +36,18 @@
     .title{
       line-height: 1;
       font-weight: 500;
-      margin-bottom: 0;
+      margin: 0 auto;
       font-size: clamp(2.1rem, 5vw, 3.6rem);
     }
 
     .subtitle{
       text-align: center;
-      margin: 0;
+      margin: 0 auto;
 
       p{
         font-weight: normal;
         font-size: clamp(.9rem, 2.5vw, 2rem);
-        margin: 0;
+        margin: 0 auto;
       }
     }
   }
@@ -57,6 +57,7 @@
     font-weight: 600;
     position: relative;
     color: transparent;
+    margin: 0 auto;
     
     &::before,
     &::after{
