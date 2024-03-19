@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  const isLoading = ref(true)
+  const isLoading = ref(false)
   
   const sort = ref("")
   const keyword = ref("")
@@ -59,7 +59,7 @@
   await fetchStories()  
   
   onMounted(() => {
-    isLoading.value = false
+    // isLoading.value = false
   })
 </script>
 <template lang="">

@@ -4,13 +4,13 @@
 
   const showLogoutModal = () => $bModal.show('logoutModal')
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     const token = useCookie('token')
     token.value = ''
-    await $bModal.hide('logoutModal')
-    await localStorage.setItem('bookmark', '[]')
-    await setUser(null)
-    await navigateTo('/')
+    $bModal.hide('logoutModal')
+    localStorage.setItem('bookmark', '[]')
+    setUser(null)
+    navigateTo('/')
   }
 </script>
 <template>

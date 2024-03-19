@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "cropperjs/dist/cropper.css",
     "vue-toast-notification/dist/theme-sugar.css"
   ],
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -14,6 +15,7 @@ export default defineNuxtConfig({
       }
     }
   },
+
   app: {
     head: {
       title: 'Story Time - Cagie',
@@ -26,6 +28,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
@@ -35,13 +38,18 @@ export default defineNuxtConfig({
     "@nuxt/devtools",
     "@vueuse/nuxt",
   ],
+
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL
     }
   },
+
   imports: {
     dirs: ['types/**/*.ts', 'types/*.ts'],
   },
-  
+
+  devtools: {
+    enabled: true,
+  },
 })
