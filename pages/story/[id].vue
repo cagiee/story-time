@@ -17,8 +17,8 @@
   useSeoMeta({
     title: detailStory.value?.title,
     ogTitle: detailStory.value?.title,
-    description: detailStory.value?.description,
-    ogDescription: detailStory.value?.description,
+    description: detailStory.value?.content,
+    ogDescription: detailStory.value?.content,
     ogImage: getImageUrl(detailStory.value?.cover_image?.formats?.thumbnail?.url || '/images/404.svg'),
   })
 
