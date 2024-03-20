@@ -39,35 +39,16 @@
 </script>
 
 <template>
-  <div>
-    
-    <div class="form-group">
-
-      <!-- Show label if label prop is exist -->
-      <label v-if="label" class="mb-2" :for="props.name">{{ label }}</label>
-
-      <div class="input-wrapper">
-        <!-- Show the textarea input if inputType is `textarea` -->
-        <Field 
-          :name="props.name"
-          v-slot="{field}"
-          :rules="rules"
-          >
-          <textarea 
-            :id="props.name"
-            v-bind="field" 
-            :class="classes" 
-            :name="props.name" 
-            :placeholder="placeholder"
-            :disabled="disabled"
-            v-model="modelValue"
-            >
-            <!-- @input="updateValue" -->
-          </textarea>
-        </Field>    
-      </div>
-    </div>
-  </div>
+  <textarea 
+    :id="props.name"
+    v-bind="$attrs" 
+    :class="classes" 
+    :name="props.name" 
+    :placeholder="placeholder"
+    :disabled="disabled"
+    v-model="modelValue"
+    >
+  </textarea>
 </template>
 
 <style lang="scss" scoped>

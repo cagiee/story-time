@@ -1,11 +1,17 @@
 import { defineRule, configure } from 'vee-validate'
 // eslint-disable-next-line camelcase
-import { required, min, max, confirmed, email, min_value } from '@vee-validate/rules'
+import { required, min, max, confirmed, email, min_value, image } from '@vee-validate/rules'
 // Define the rule globally
 
 export default defineNuxtPlugin(() => {
   defineRule('required', (value: any, children: any, ctx: any) => {
-    if (!value || !value.length) {
+    if (!value) {
+      return `${ctx.label} is required`;
+    }
+    return true;
+  })
+  defineRule('requiredQuill', (value: any, children: any, ctx: any) => {
+    if (value === '<p><br></p>' || !value) {
       return `${ctx.label} is required`;
     }
     return true;
@@ -32,4 +38,5 @@ export default defineNuxtPlugin(() => {
   defineRule('email', email)
   defineRule('max', max)
   defineRule('min_value', min_value)
+  defineRule('image', image)
 })

@@ -1,32 +1,47 @@
 <script lang="ts" setup>
-  const identifier = ref('')
-  const password = ref('')
 
   const isLoading = ref(false)
+
+  const formSchema = {
+    fields: [
+      {
+        label: 'Username or Email',
+        name: 'identifier',
+        placeholder: 'Enter your username or email',
+        rules: 'required',
+      },
+      {
+        label: 'Password',
+        name: 'password',
+        type: 'password',
+        placeholder: 'Enter your password',
+        rules: 'required',
+      }
+    ]
+  }
   
-  const handleLogin = async () => {
+  const handleLogin = async (formData: any) => {
     isLoading.value = true
 
     const { $api } = useNuxtApp()
     const { user, setUser } = useMyUserStore()
 
     const { data, error } = await $api.auth.login({
-      identifier: identifier.value,
-      password: password.value,
+      identifier: formData.identifier,
+      password: formData.password,
     })
 
     if(error.value){
       const { error: {message} }: any = error.value.data
 
       const $toast = useToast()
-      let instance = $toast.error(message)
+      $toast.error(message)
     } else {
       const token = useCookie('token')
       
       token.value = data.value?.data.jwt
-      
 
-      const { data: userProfile, error } = await $api.user.getProfile({
+      const { data: userProfile } = await $api.user.getProfile({
         headers: {
           authorization: `Bearer ${token.value}` || ''
         }
@@ -34,7 +49,7 @@
       
       await setUser(userProfile.value?.data)
       
-      await navigateTo('/')
+      navigateTo('/')
     }
     
     isLoading.value = false
@@ -44,33 +59,22 @@
   <div class="shadow-sm mx-auto col-12 col-lg-5">
     <Form class="login-form" @submit="handleLogin">
       <h3>Login</h3>
-      <UiFormInput
-        v-model="identifier"
-        name="identifier"
-        placeholder="Enter username or email" 
-        label="Username or Email" 
-        :rules="{required: true}" />
-      <UiFormInput
-        v-model="password"
-        name="password"
-        inputType="password"
-        placeholder="Enter password" 
-        label="Password" 
-        :rules="{required: true}" />
-      <UiButton buttonType="submit" classes="col-12" content="Login" variant="black" :isLoading="isLoading"/>
+      <UiFormDynamicForm :schema="formSchema" v-model="isLoading" />
       <p>Don't have an account yet ? <nuxt-link to="/register">Register</nuxt-link></p>
+      <UiButton buttonType="submit" classes="col-12" content="Login" variant="black" :isLoading="isLoading"/>
     </Form>
   </div>
   
 </template>
 <style lang="scss" scoped>
   .login-form{
-    padding: 2rem;
-    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     width: 100%;
+    margin-top: 1rem;
+    padding: 2rem;
+    background-color: #ffffff;
   }
   a{
     font-weight: 600;

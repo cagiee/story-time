@@ -1,9 +1,19 @@
 <script lang="ts" setup>
-const coverImage: any = defineModel()
-const emit = defineEmits(['update:modelValue'])
+defineOptions({
+  inheritAttrs: false
+})
+
+const props = defineProps({
+  coverImage: {
+    type: String,
+    default: '',
+    required: false
+  }
+})
 
 const inputCoverImage = ref()
-const coverImagePreview = ref(coverImage.value ? getImageUrl(coverImage.value.url) : null)
+const coverImagePreview = ref(props.coverImage ? getImageUrl(props.coverImage) : null)
+
 const $toast = useToast()
 
 const handleCoverImageChange = (event: any) => {
@@ -20,24 +30,17 @@ const handleCoverImageChange = (event: any) => {
   const reader = new FileReader()
   reader.onload = (e: any) => {
     coverImagePreview.value = e.target.result
-    emit('update:modelValue', file)
   }
   reader.readAsDataURL(file)
 
 }
 const clearCoverImage = () => {  
   coverImagePreview.value = inputCoverImage.value.value = null
-  emit('update:modelValue', undefined)
-}
-
-if (coverImage.value) {
-  emit('update:modelValue', undefined)
 }
 </script>
 
 <template>
   <div class="cover-image">
-    <label class="cover-image-title mb-2">Cover Image</label>
     <div class="story-cover-img-wrapper">
       <UiButton v-if="coverImagePreview" buttonType="button" variant="danger" classes="rounded-full" class="btn-clear-cover-image" icon="material-symbols:close" @Click="clearCoverImage" />
       <div class="story-cover-img" :class="!coverImagePreview ? 'dashed-border' : ''" @click="inputCoverImage.click()">
@@ -47,7 +50,7 @@ if (coverImage.value) {
         </div>
         <img v-else :src="coverImagePreview" alt="" class="cover-image-preview">
       </div>
-      <input type="file" name="" id="" class="d-none" @change="handleCoverImageChange" ref="inputCoverImage" accept=".png, .jpg, .jpeg"/>
+      <input type="file" v-bind="$attrs" @change="handleCoverImageChange" class="d-none" ref="inputCoverImage" accept=".png, .jpg, .jpeg"/>
     </div>
   </div>
 </template>

@@ -10,17 +10,45 @@
   
   const $toast = useToast()
 
-  const name = ref(user.value?.name)
-  const email = ref(user.value?.email)
-  const biodata = ref(user.value?.biodata)
+  const formSchema = {
+    fields: [
+      {
+        label: 'Name',
+        name: 'name',
+        placeholder: 'Enter your name',
+        rules: 'required',
+      },
+      {
+        label: 'Email',
+        name: 'email',
+        placeholder: 'Enter your email',
+        disabled: true,
+      },
+      {
+        label: 'About Me',
+        name: 'biodata',
+        placeholder: 'Enter about me',
+        type: 'textarea',
+      },
+    ]
+  }
 
-  const handleUpdateProfile = async () => {
+  const initialValues = {
+    name: user.value?.name,
+    email: user.value?.email,
+    biodata: user.value?.biodata
+  }
+  
+  const { handleSubmit } = useForm()
+
+  const handleUpdateProfile = async (formData: any) => {
     isLoading.value = true
-    const formData = new FormData()
-    formData.append('name', name.value as string)
-    formData.append('biodata', biodata.value as string)
 
-    const { error } = await $api.user.updateProfile(formData)
+    const { error } = await $api.user.updateProfile({
+      name: formData.name,
+      email: formData.email,
+      biodata: formData.biodata,
+    })
 
     if(error.value){
       const { error: {message} }: any = error.value.data
@@ -30,6 +58,9 @@
       const { data: updatedUserData } = await $api.user.getProfile()
       setUser(updatedUserData.value?.data)
       user.value = updatedUserData.value?.data
+      initialValues.name = updatedUserData.value?.data.name
+      initialValues.email = updatedUserData.value?.data.email
+      initialValues.biodata = updatedUserData.value?.data.biodata
 
       $toast.success('Successfully update profile')
     }
@@ -39,9 +70,6 @@
   }
 
   const hideForm = () => {
-    name.value = user.value?.name
-    email.value = user.value?.email
-    biodata.value = user.value?.biodata
     showForm.value = false
   }
 
@@ -65,31 +93,15 @@
       </tr>
     </table>
     <div v-else>
-      <Form class="d-flex flex-column gap-3" @submit="handleUpdateProfile">
-        <UiFormInput
-          inputType="text"
-          v-model="name"
-          name="name"
-          placeholder="Enter your name" 
-          label="Name" 
-          :rules="{required: true}" />
-        <UiFormInput 
-          inputType="email" 
-          v-model="email"
-          name="Email" 
-          placeholder="Enter your email"
-          label="Email" 
-          :disabled="true" 
-          />
-        <UiFormTextarea 
-          v-model="biodata"
-          name="aboutMe" 
-          placeholder="Enter about me"
-          label="About me" 
-          />
-        <div class="d-flex justify-content-end gap-2">
-          <UiButton buttonType="button" content="Cancel" variant="white" @click="hideForm" />
-          <UiButton buttonType="submit" content="Save" variant="black" :isLoading="isLoading" />
+      <Form class="profile-form" :initialValues="initialValues" @submit="handleUpdateProfile">
+        <UiFormDynamicForm :schema="formSchema" :isLoading="isLoading" />
+        <div class="row">
+          <div class="col-6">
+            <UiButton buttonType="button" classes="col-12" content="Cancel" variant="white" :disabled="isLoading" @click="showForm = false"/>
+          </div>
+          <div class="col-6">
+            <UiButton buttonType="submit" classes="col-12" content="Save Change" variant="black" :isLoading="isLoading"/>
+          </div>
         </div>
       </Form>
     </div>
@@ -106,5 +118,10 @@
       padding-right: 8px;
       padding-bottom: 20px;
     }
+  }
+  .profile-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 </style>

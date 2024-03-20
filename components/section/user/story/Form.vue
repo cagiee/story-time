@@ -6,21 +6,22 @@ const props = defineProps({
   form: String
 })
 
-const title = ref()
-const category = ref()
-const content = ref()
-const coverImage = ref()
+const initialValues = reactive({
+  title: '',
+  category: '',
+  content: '',
+  coverImage: ''
+})
 
-const detailStory = ref()
+const detailStory = {} as any
 
 if (props.form == 'edit') {
   const { data } = await $api.stories.getDetailStory(route.params.id)
   detailStory.value = data.value?.data
-
-  title.value = detailStory.value.title
-  category.value = detailStory.value.category.id
-  content.value = detailStory.value.content
-  coverImage.value = detailStory.value.cover_image
+  initialValues.title = detailStory.value.title
+  initialValues.category = detailStory.value.category.id
+  initialValues.content = detailStory.value.content
+  initialValues.coverImage = detailStory.value.cover_image.url
 }
 
 const isLoading = ref(false)
@@ -35,24 +36,7 @@ const categoryList = categories.value?.data.map(item => {
   }
 })
 
-const validate = () => {
-  if(!content.value || content.value == '<p><br></p>')
-    quillValidate.value = 'Content is required'
-  else
-    quillValidate.value = ''
-  
-  if(!coverImage.value && props.form == 'create')
-    coverImageValidate.value = 'Cover Image is required'
-  else
-    coverImageValidate.value = ''
-
-  return !quillValidate.value && !coverImageValidate.value
-}
-
-const handleSubmit = async () => {
-  
-  if(!validate())
-    return
+const handleSubmit = async (formData: any) => {
   
   isLoading.value = true
 
@@ -61,10 +45,10 @@ const handleSubmit = async () => {
 
   switch (props.form) {
     case 'create':
-      ({ data: responseData, error: requestError } = await createStory())
+      ({ data: responseData, error: requestError } = await createStory(formData))
       break
     case 'edit':
-      ({ data: responseData, error: requestError } = await updateStory())
+      ({ data: responseData, error: requestError } = await updateStory(formData))
       break
   }
 
@@ -72,11 +56,12 @@ const handleSubmit = async () => {
     const { error: {message} }: any = requestError.value.data
     $toast.error(message)
   } else {
-    if (props.form == 'edit' && coverImage.value)
+    
+    if (props.form == 'edit' && formData.coverImage instanceof File)
       await $api.stories.deleteStoryImage(detailStory.value?.cover_image.id)
     
-    if (coverImage.value || props.form == 'create') {
-      const {error: errorUpload} = await uploadCoverImage(responseData.value.data.id)
+    if (formData.coverImage instanceof File || props.form == 'create') {
+      const {error: errorUpload} = await uploadCoverImage(responseData.value.data.id, formData.coverImage)
       if (errorUpload.value) {
         const { error: {message} }: any = errorUpload.value.data
         $toast.error(message)
@@ -91,27 +76,27 @@ const handleSubmit = async () => {
   isLoading.value = false
 }
 
-const createStory = async () => {
+const createStory = async (formData: any) => {
   return await $api.stories.createStory({
-    title: title.value,
-    category: category.value,
-    content: content.value,
+    title: formData.title,
+    category: formData.category,
+    content: formData.content,
   })
 }
 
-const updateStory = async () => {
+const updateStory = async (formData: any) => {
   return await $api.stories.updateStory(route.params.id, {
     data: {
-      title: title.value,
-      category: category.value,
-      content: content.value,
+      title: formData.title,
+      category: formData.category,
+      content: formData.content,
     }
   })
 }
 
-const uploadCoverImage = async (refId: string) => {
+const uploadCoverImage = async (refId: string, coverImage: any) => {
   const formDataUpload = new FormData()
-  formDataUpload.append('files', coverImage.value)
+  formDataUpload.append('files', coverImage)
   formDataUpload.append('refId', refId)
   formDataUpload.append('ref', 'api::story.story')
   formDataUpload.append('field', 'cover_image')
@@ -119,6 +104,36 @@ const uploadCoverImage = async (refId: string) => {
   return await $api.stories.uploadStoryImage(formDataUpload)
 }
 
+const formSchema = ref({
+  fields: [
+    {
+      label: 'Title',
+      name: 'title',
+      placeholder: 'Enter a story title',
+      rules: 'required',
+    },
+    {
+      label: 'Category',
+      name: 'category',
+      placeholder: 'Select a category',
+      rules: 'required',
+      type: 'select',
+      options: categoryList
+    },
+    {
+      label: 'Content',
+      name: 'content',
+      rules: 'requiredQuill',
+      type: 'quill',
+    },
+    {
+      label: 'Cover Image',
+      name: 'coverImage',
+      rules: props.form == 'create' ? 'image|required' : '',
+      type: 'coverImage',
+    }
+  ]
+})
 </script>
 
 <template>
@@ -129,31 +144,8 @@ const uploadCoverImage = async (refId: string) => {
         {{ props.form }} Story
       </h1>
     </div>
-    <Form class="d-flex flex-column gap-4" @submit="handleSubmit" @invalid-submit="validate">
-      <UiFormInput 
-        inputType="text"
-        name="title"
-        v-model="title"
-        label="Title"
-        placeholder="Enter a story title"
-        :rules="{required: true}"
-        />
-      <UiFormSelect 
-        name="category"
-        v-model="category"
-        label="Category"
-        placeholder="Select a category"
-        :rules="{required: true}"
-        :options="categoryList"
-        />
-      <div class="quill-wrapper">
-        <UiFormQuillEditor v-model="content" label="Content" />
-        <p class="error-message" v-if="quillValidate">{{ quillValidate }}</p>
-      </div>
-      <div class="">
-        <SectionUserStoryCoverImage v-model="coverImage" />
-        <p class="error-message" v-if="coverImageValidate">{{ coverImageValidate }}</p>
-      </div>
+    <Form class="d-flex flex-column gap-4" :initialValues="initialValues"  @submit="handleSubmit">
+      <UiFormDynamicForm :schema="formSchema" :isLoading="isLoading" />
       <div class="d-flex justify-content-end gap-2">
         <UiButton buttonType="nuxtLink" path="/user/story" variant="white" content="Cancel" />
         <UiButton buttonType="submit" variant="black" :isLoading="isLoading" content="Submit" />
