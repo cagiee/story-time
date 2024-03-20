@@ -40,7 +40,7 @@
           &laquo;
         </span>
       </li>
-      <li class="page-item" @click="paginate(i)" v-for="i in pagination.pageCount" :class="i == currentPage ? 'active' : ''">
+      <li class="page-item" @click="paginate(i)" v-for="i in pagination.pageCount" :key="i" :class="i == currentPage ? 'active' : ''">
         <span class="page-link">{{ i }}</span>
       </li>
       <li class="page-item" :class="pagination.pageCount == currentPage ? 'disabled' : ''">

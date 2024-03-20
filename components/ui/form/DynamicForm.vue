@@ -12,7 +12,7 @@
 </script>
 
 <template>
-    <div class="" v-for="{ type, name, label, options, rules, placeholder, disabled } in schema.fields">
+    <div class="" v-for="({ type, name, label, options, rules, placeholder, disabled }, i) in schema.fields" :key="i">
       <label :for="name" class="form-label">{{ label }}</label>
       <Field :id="name" :name="name" :label="label" :rules="rules" v-slot="{ handleChange, handleBlur, field, errors }">
         <div class="input-wrapper">

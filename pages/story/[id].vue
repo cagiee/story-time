@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { getImageUrl } from '~/utils/getImageUrl'
   const route = useRoute()
 
   const isLoading = ref(true)
@@ -12,6 +13,14 @@
       statusMessage: "Page Not Found"
     })
   }
+
+  useSeoMeta({
+    title: detailStory.value?.title,
+    ogTitle: detailStory.value?.title,
+    description: detailStory.value?.description,
+    ogDescription: detailStory.value?.description,
+    ogImage: getImageUrl(detailStory.value?.cover_image?.formats?.thumbnail?.url || '/images/404.svg'),
+  })
 
   onMounted(() => isLoading.value = false)
 </script>
