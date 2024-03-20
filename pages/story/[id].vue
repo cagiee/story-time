@@ -14,13 +14,11 @@
     })
   }
 
-  function extractContent(content: string) {
-    var span = document.createElement('span');
-    span.innerHTML = content;
-    return span.textContent || span.innerText;
-  };
+  function removeHtmlTags(html: string) {
+    return html.replace(/<[^>]*>/g, '');
+}
 
-  const description = extractContent(detailStory.value?.content)
+  const description = removeHtmlTags(detailStory.value?.content)
 
   useSeoMeta({
     title: detailStory.value?.title,
