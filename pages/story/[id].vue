@@ -14,11 +14,19 @@
     })
   }
 
+  function extractContent(content: string) {
+    var span = document.createElement('span');
+    span.innerHTML = content;
+    return span.textContent || span.innerText;
+  };
+
+  const description = extractContent(detailStory.value?.content)
+
   useSeoMeta({
     title: detailStory.value?.title,
     ogTitle: detailStory.value?.title,
-    description: detailStory.value?.content,
-    ogDescription: detailStory.value?.content,
+    description,
+    ogDescription: description,
     ogImage: getImageUrl(detailStory.value?.cover_image?.formats?.thumbnail?.url || '/images/404.svg'),
   })
 
