@@ -2,6 +2,13 @@
   definePageMeta({
     middleware: 'guest'
   })
+  useSeoMeta({
+    title: 'Story Time - Register',
+    ogTitle: 'Story Time - Register',
+    description: 'This is Story Time on a register page yow',
+    ogDescription: 'This is Story Time on a register page yow',
+    ogImage: ('/images/logo.svg'),
+  })
   const registerSuccess = ref(false)
 </script>
 <template>
