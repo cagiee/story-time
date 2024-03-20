@@ -1,5 +1,5 @@
-export function getImageUrl(url: string): string {
+export function getImageUrl(url: string, isLocal: boolean = false): string {
   const config = useRuntimeConfig()
-  const result = `${config.public.apiBaseUrl}${url}`
+  const result = `${isLocal ? config.public.baseUrl : config.public.apiBaseUrl}${url}`
   return result
 }

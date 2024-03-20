@@ -4,7 +4,7 @@ useSeoMeta({
     ogTitle: 'Story Time',
     description: 'This is Story Time Yeah',
     ogDescription: 'This is Story Time Yeah',
-    ogImage: ('/images/logo.svg'),
+    ogImage: getImageUrl('/images/logo.svg', true),
   })
 </script>
 

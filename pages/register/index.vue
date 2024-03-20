@@ -7,7 +7,7 @@
     ogTitle: 'Story Time - Register',
     description: 'This is Story Time on a register page yow',
     ogDescription: 'This is Story Time on a register page yow',
-    ogImage: ('/images/logo.svg'),
+    ogImage: getImageUrl('/images/logo.svg', true),
   })
   const registerSuccess = ref(false)
 </script>
