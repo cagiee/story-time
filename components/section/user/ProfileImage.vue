@@ -10,7 +10,7 @@
   const cropper = ref()
   const inputProfileImage = ref()
   const cropperImageUrl = ref()
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
   const isLoading = ref(true)
   const user = ref(userData) as any
 

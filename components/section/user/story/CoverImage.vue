@@ -14,7 +14,7 @@ const props = defineProps({
 const inputCoverImage = ref()
 const coverImagePreview = ref(props.coverImage ? getImageUrl(props.coverImage) : null)
 
-const $toast = useToast()
+const { $toast } = useNuxtApp()
 
 const handleCoverImageChange = (event: any) => {
   const file = event.target.files[0]

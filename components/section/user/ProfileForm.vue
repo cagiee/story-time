@@ -8,7 +8,7 @@
 
   const showForm = defineModel({ default: false })
   
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
 
   const formSchema = {
     fields: [

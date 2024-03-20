@@ -6,7 +6,7 @@
   })
 
   const { user } = useMyUserStore()
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
   const img = useImage()
   
   const story = ref(props.story)

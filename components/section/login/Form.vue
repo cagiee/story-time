@@ -34,7 +34,7 @@
     if(error.value){
       const { error: {message} }: any = error.value.data
 
-      const $toast = useToast()
+      const { $toast } = useNuxtApp()
       $toast.error(message)
     } else {
       const token = useCookie('token')

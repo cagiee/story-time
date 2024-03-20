@@ -2,7 +2,7 @@
   const { $api, $bModal } = useNuxtApp()
   const route = useRoute()
   const { user } = useMyUserStore() as any
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
   const deleteLoading = ref(false)
   const tableLoading = ref(true)
 

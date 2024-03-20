@@ -41,7 +41,7 @@
   }
 
   const isLoading = ref(false)
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
   
   const { handleSubmit } = useForm()
 

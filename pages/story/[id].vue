@@ -6,6 +6,12 @@
   const { $api } = useNuxtApp()
   const { data } = await $api.stories.getDetailStory(route.params.id)
   const detailStory = ref(data.value?.data)
+  if(detailStory.value == null) {
+    showError({
+      statusCode: 404,
+      statusMessage: "Page Not Found"
+    })
+  }
 
   onMounted(() => isLoading.value = false)
 </script>

@@ -2,7 +2,7 @@
   import { createReusableTemplate } from '@vueuse/core'
 
   const { $api } = useNuxtApp()
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
 
   const showForm = ref(false)
  

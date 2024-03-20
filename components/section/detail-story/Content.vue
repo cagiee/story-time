@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { getImageUrl } from '~/utils/getImageUrl'
   
-  const $toast = useToast()
+  const { $toast } = useNuxtApp()
   const props = defineProps({
     detailStory: {
       type: Object
@@ -12,7 +12,8 @@
     },
   })
 
-  const detailStory = ref(props.detailStory)
+  const detailStory = reactive(props.detailStory || {})
+  
   const icon = computed(() => {
     return !bookmarked.value ? "material-symbols:bookmark-add-outline-sharp" : "material-symbols:bookmark"
   })
@@ -38,10 +39,10 @@
 
     const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
 
-    if (!detailStory.value)
+    if (!detailStory)
       return $toast.error('Story undefined')
 
-    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.value?.id)
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.id)
 
     if(currentBookmark.length >= maxBookmarkCapacity && foundedIndex == -1) {
       return $toast.error("You have reached the maximum bookmark capacity limit (30)")
@@ -49,19 +50,7 @@
 
     if (foundedIndex == -1){
       currentBookmark.push({
-        id: detailStory.value.id,
-        title: detailStory.value.title,
-        author: {
-          name: detailStory.value.author.name,
-          username: detailStory.value.author.username,
-        },
-        category: {
-          name: detailStory.value.category.name
-        },
-        cover_image: {
-          url: detailStory.value.cover_image.url
-        },
-        updatedAt: detailStory.value.updatedAt,
+        ...detailStory
       })
       bookmarked.value = true
       $toast.success('Successfully added story to bookmark')
@@ -79,9 +68,10 @@
 
   onMounted(() => {
     const currentBookmark = JSON.parse(localStorage.getItem('bookmark') || '[]')
-    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.value?.id)
+    const foundedIndex = currentBookmark.findIndex((item: any) => item.id == detailStory.id)
     bookmarked.value = foundedIndex > -1
   })
+
 </script>
 <template lang="">
   <div v-if="!isLoading && detailStory">

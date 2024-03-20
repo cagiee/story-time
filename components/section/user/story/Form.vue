@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const { $api } = useNuxtApp()
-const $toast = useToast()
+const { $toast } = useNuxtApp()
 const route = useRoute()
 const props = defineProps({
   form: String
