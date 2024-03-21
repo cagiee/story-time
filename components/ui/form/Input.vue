@@ -30,6 +30,7 @@
 
   const showPassword = ref(false)
 
+  const modelValue = defineModel('modelValue')
 </script>
 
 <template v-slot>
@@ -39,6 +40,7 @@
     :type="type == 'password' && showPassword ? 'text' : type"
     :placeholder="placeholder"
     :disabled="disabled"
+    v-model="modelValue"
     />
 </template>
 

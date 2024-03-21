@@ -37,11 +37,13 @@
       required: false,
     },
   })
+  
+  const modelValue = defineModel('modelValue')
 </script>
 
 <template lang="">
   <ClientOnly >
-    <select name="" v-bind="$attrs" :class='`${classes}`' id="">
+    <select name="" v-bind="$attrs" :class='`${classes}`' id="" v-model="modelValue">
       <option value="" selected disabled>{{ placeholder }}</option>
       <option v-for="option in options" :key="option" :value="option.value">{{ option.text }}</option>
     </select>
